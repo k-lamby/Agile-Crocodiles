@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+   <head>
+      <title>The Food App - Lets add some food!</title>
+      <!--basic CSS stle sheet -->
+      <link rel="stylesheet" href="/views/style.css">
+      <!--additional scripts for validating the updated entry-->
+      <script src="js/jsAdditional.js"></script>
+   </head>
+   <body>
+      <div class="updatePage">
+         <h1> UPDATE FOOD </h1>
+         <!--navbar kept consistent across all pages-->
+         <nav>
+            <ul>
+               <li><a href="/">Home</a></li>
+               <li><a href="/search">Search Foods</a></li>
+               <li><a href="/add">Add Food</a></li>
+               <li><a href="/update">Update Food</a></li>
+               <li><a href="/recipe">Create Recipe</a></li>
+            </ul>
+         </nav>
+         <!--form very similar to add food, fields are prefilled for user with the entry-->
+         <section id = "updateSection">
+            <p>This is the entry you have selected to update. So get updating! </p>
+            <br>
+            <form name="foodUpdate" method="POST" action="/foodUpdated" onsubmit ="return validateFoodAddForm()">
+               <label for="recID">Record ID</label><br>
+               <input id="recID" class ="addFoodForm" type="text" name="recID" value="<%= foodUpdate[0].id %>" /><br><br>
+               <label for="name">Name</label><br>
+               <input id="name" class ="addFoodForm" type="text" name="name" value="<%= foodUpdate[0].name %>" /><br><br>
+               <label for="calories">Calories</label><br>
+               <input id="calories" class ="addFoodForm" type="number" min="0" name="calories" step="any" value="<%= foodUpdate[0].calories %>" /><br><br>
+               <label for="fat">Fat (g)</label><br>
+               <input id="fat" class ="addFoodForm" type="number" min="0" name="fat" step="any" value="<%= foodUpdate[0].fat_g %>" /><br><br>
+               <label for="protein">Protein (g)</label><br>
+               <input id="protein" class ="addFoodForm" type="number" min="0" name="protein" step="any" value="<%= foodUpdate[0].proteins_g %>" /><br><br>
+               <label for="carbs">Carbs (g)</label><br>
+               <input id="carbs" class ="addFoodForm" type="number" min="0" name="carbs" step="any" value="<%= foodUpdate[0].carbohydrates_g %>" /><br><br>
+               <label for="sugars">Sugars (g)</label><br>
+               <input id="sugars" class ="addFoodForm" type="number" min="0" name="sugars" step="any" value="<%= foodUpdate[0].sugars_g %>" /><br><br>
+               <label for="fibre">Fibre (g)</label><br>
+               <input id="fibre" class ="addFoodForm" type="number" min="0" name="fibre" step="any" value="<%= foodUpdate[0].fibre_g %>" /><br><br>
+               <label for="satfat">Sat Fats (g)</label><br>
+               <input id="satfat" class ="addFoodForm" type="number" min="0" name="satfat" step="any" value="<%= foodUpdate[0].sat_fats_g %>" /><br><br>
+               <label for="salt">Salt (mg)</label><br>
+               <input id="salt" class ="addFoodForm" type="number" min="0" name="salt" step="any" value="<%= foodUpdate[0].sodium_mg %>" /><br><br>
+               <label for="servingDesc">Serving Size Description</label><br>
+               <input id="servingDesc" class ="addFoodForm" type="text" name="servingDesc" value="<%= foodUpdate[0].serve_description %>" /><br><br>
+               <input type="submit" id="updateFood" value="Update Food" />
+            </form>
+         </section>
+      </div>
+   </body>
+</html>

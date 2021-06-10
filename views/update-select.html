@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+   <head>
+      <title>The Food App - Come here to update an entry</title>
+      <!--basic CSS style page-->
+      <link rel="stylesheet" href="/views/style.css">
+      <!--additional basic javascript scripts-->
+      <script src="js/jsAdditional.js"></script>
+   </head>
+   <body>
+      <div class="updatePage">
+         <h1> UPDATE FOOD </h1>
+         <!--navbar consistent feel across all pages-->
+         <nav>
+            <ul>
+               <li><a href="/">Home</a></li>
+               <li><a href="/search">Search Foods</a></li>
+               <li><a href="/add">Add Food</a></li>
+               <li><a href="/update">Update Food</a></li>
+               <li><a href="/recipe">Create Recipe</a></li>
+            </ul>
+         </nav>
+
+         <!--Creates a list of food containing the keyword-->
+         <section class = "update-result">
+            <p>We found <%= data.availableFoods.length %> entries containing "<b><%= data.word %>"</b> Select the entry that you would like to update:</p>
+            <form id="foodUpdate" name="foodUpdate" method="GET" action="/process-update">
+               <ul>
+                  <% data.availableFoods.forEach(function(food){ %>
+                  <li>
+                      <!--radio button for user to select entry to amend-->
+                     <input type="radio" id="<%= food.id %>" value="<%= food.id %>" name = "selection">
+                     <label for="<%= food.id %>"><%= food.name %></label><br>
+                  </li>
+                  <% }) %>
+               </ul>
+               <!--user can either delete or update the entry-->
+               <input id="update-records" type="submit" value="update" name="type">
+               <input id="delete-records" type="submit" value="delete" name="type" onclick="clicked(event)">
+            </form>
+         </section>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+   <head>
+      <title>The Food App - Lets find some food!</title>
+      <link rel="stylesheet" href="/views/style.css">
+   </head>
+   <body>
+      <div class="searchPage">
+         <h1> SEARCH FOOD </h1>
+         <nav>
+            <ul>
+               <li><a href="/">Home</a></li>
+               <li><a href="/search">Search Foods</a></li>
+               <li><a href="/add">Add Food</a></li>
+               <li><a href="/update">Update Food</a></li>
+               <li><a href="/recipe">Create Recipe</a></li>
+            </ul>
+         </nav>
+         <section class = "searchSection">
+            <p>Lets search for some food! Enter what you are looking for into the search box below:</p>
+            <form action="/search-result" method="GET">
+               <input id="search-box" type="text" name="keyword" placeholder="Lets go hunting...">
+               <input id="search-button" type="submit" value="Submit" >
+            </form>
+         </section>
+      </div>
+   </body>
+</html>

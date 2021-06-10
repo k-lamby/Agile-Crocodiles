@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+   <head>
+      <title>The Food App - Lets add some food!</title>
+      <link rel="stylesheet" href="views/style.css">
+      <script src="js/jsAdditional.js"></script>
+   </head>
+   <body>
+
+      <!--div section for page, to style for CSS-->
+      <div class="addFood">
+
+        <!--large bold header-->
+         <h1> ADD FOOD </h1>
+
+         <!--navbar kept the same through all pages-->
+         <nav>
+            <ul>
+               <li><a href="/">Home</a></li>
+               <li><a href="/search">Search Foods</a></li>
+               <li><a href="/add">Add Food</a></li>
+               <li><a href="/update">Update Food</a></li>
+               <li><a href="/recipe">Create Recipe</a></li>
+            </ul>
+         </nav>
+
+         <!--Section for adding data to the database-->
+         <section id = "addSection">
+
+            <!--small text line to prompt the user-->
+            <p>Let's add some food to the database!</p>
+            <br>
+            <!--form for all the user required elements-->
+            <!--for number fields the data validation managed through html below-->
+            <!--for text fields managed through javascript function-->
+            <form name="foodAdd" method="POST" action="/foodAdded" onsubmit ="return validateFoodAddForm()">
+               <!--link to the search section-->
+               <a href="/topic7/mid-term/search">Make sure it doesn't already exist here.</a><br><br>
+               <label for="name">Name</label><br>
+               <input id="name" class ="addFoodForm" type="text" name="name" step="any" placeholder="Enter the food name here..." /><br><br>
+               <label for="calories">Calories</label><br>
+               <input id="calories" class ="addFoodForm" type="number" min="0" name="calories" step="any" value="0" /><br><br>
+               <label for="fat">Fat (g)</label><br>
+               <input id="fat" class ="addFoodForm" type="number" min="0" name="fat" step="any" value="0.00" /><br><br>
+               <label for="protein">Protein (g)</label><br>
+               <input id="protein" class ="addFoodForm" type="number" min="0" name="protein" step="any" value="0.00" /><br><br>
+               <label for="carbs">Carbs (g)</label><br>
+               <input id="carbs" class ="addFoodForm" type="number" min="0" name="carbs" step="any" value="0.00" /><br><br>
+               <label for="sugars">Sugars (g)</label><br>
+               <input id="sugars" class ="addFoodForm" type="number" min="0" name="sugars" step="any" value="0.00" /><br><br>
+               <label for="fibre">Fibre (g)</label><br>
+               <input id="fibre" class ="addFoodForm" type="number" min="0" name="fibre" step="any" value="0.00" /><br><br>
+               <label for="satfat">Sat Fats (g)</label><br>
+               <input id="satfat" class ="addFoodForm" type="number" min="0" name="satfat" step="any" value="0.00" /><br><br>
+               <label for="salt">Salt (mg)</label><br>
+               <input id="salt" class ="addFoodForm" type="number" min="0" name="salt" step="any" value="0.00" /><br><br>
+               <label for="servingDesc">Serving Size Description</label><br>
+               <input id="servingDesc" class ="addFoodForm" type="text" name="servingDesc" step="any" placeholder="eg. 1 pint glass" /><br><br>
+               <input type="submit" id="addFoodButton" value="Add Food" />
+            </form>
+         </section>
+      </div>
+   </body>
+</html>

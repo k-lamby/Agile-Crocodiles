@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+   <head>
+       <!--search results page-->
+      <title>The Food App - Lets find some food!</title>
+      <link rel="stylesheet" href="/views/style.css">
+   </head>
+   <body>
+      <div class="searchPage">
+         <h1> SEARCH FOOD </h1>
+         <!--navbar consistent through all pages-->
+         <nav>
+            <ul>
+               <li><a href="/">Home</a></li>
+               <li><a href="/search">Search Foods</a></li>
+               <li><a href="/add">Add Food</a></li>
+               <li><a href="/update">Update Food</a></li>
+               <li><a href="/recipe">Create Recipe</a></li>
+            </ul>
+         </nav>
+
+         <!--displays all the results from the query-->
+         <section class = "searchSection">
+             <!--Short sentence confirming number of entries found for keyword searched-->
+            <p>We found <%= data.availableFoods.length %> entries containing "<b><%= data.word %>"</b></p>
+            <table>
+               <col style="width:30%">
+               <col style="width:7%">
+               <col style="width:7%">
+               <col style="width:7%">
+               <col style="width:7%">
+               <col style="width:7%">
+               <col style="width:7%">
+               <col style="width:7%">
+               <col style="width:7%">
+               <col style="width:20%">
+               <tr>
+                  <th>Name</th>
+                  <th>Calories</th>
+                  <th>Fat (g)</th>
+                  <th>Prot (g)</th>
+                  <th>Carbs (g)</th>
+                  <th>Sugar (g)</th>
+                  <th>Fibre (g)</th>
+                  <th>SatFat (g)</th>
+                  <th>Salt (mg)</th>
+                  <th>Serving Description </th>
+               </tr>
+               <% data.availableFoods.forEach(function(food){ %>
+               <tr>
+                  <td><%= food.name %></td>
+                  <td><%= food.calories %></td>
+                  <td><%= food.fat_g %></td>
+                  <td><%= food.proteins_g %></td>
+                  <td><%= food.carbohydrates_g %></td>
+                  <td><%= food.sugars_g %></td>
+                  <td><%= food.fibre_g %></td>
+                  <td><%= food.sat_fats_g %></td>
+                  <td><%= food.sodium_mg %></td>
+                  <td><%= food.serve_description %> </td>
+               </tr>
+               <% }) %>
+            </table>
+         </section>
+      </div>
+   </body>
+</html>

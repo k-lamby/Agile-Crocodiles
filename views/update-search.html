@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+    <head>
+        <title>The Food App - Come here to update an entry</title>
+        <!--basic CSS style page-->
+        <link rel="stylesheet" href="views/style.css">
+    </head>
+    <body>
+        <!--page container for CSS-->
+        <div class="updatePage">
+            <h1> UPDATE FOOD </h1>
+
+            <!--navbar consistent across all pages-->
+            <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search">Search Foods</a></li>
+                <li><a href="/add">Add Food</a></li>
+                <li><a href="/update">Update Food</a></li>
+                <li><a href="/recipe">Create Recipe</a></li>
+            </ul>
+            </nav>
+
+            <!--basic input form to get the keyword from the user, sql uses wildcards-->
+            <section class = "searchSection">
+            <p>Step number one, lets find the entry you want to change</p>
+                <form action="/update-select" method="GET">
+                    <input id="search-box" type="text" name="keyword" placeholder="Type in some food...">
+                    <input id="search-button" type="submit" value="Submit" >
+                </form>
+            </section>
+        </div>
+    </body>
+</html>
