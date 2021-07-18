@@ -18,23 +18,23 @@ app.use((req, res, next) =>{
     next();
 })
 
-// var connection = mysql.createConnection({
-//   host     : 'localhost',
-//   user     : 'root',
-//   password : '',
-//   database : '',
-//   multipleStatements: true
-// });
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'bibliophile',
+  multipleStatements: true
+});
 
-// connection.connect((err) => {
-//     if (err) {
-//       console.error("error connecting: " + err.stack);
-//       return;
-//     }
-//     console.log("successfully connected to the database");
-// });
+connection.connect((err) => {
+    if (err) {
+      console.error("error connecting: " + err.stack);
+      return;
+    }
+    console.log("successfully connected to the database");
+});
 
-// global.connection = connection;
+global.connection = connection;
 
 require("./routes/main")(app);
 app.set("views",__dirname + "/views");
