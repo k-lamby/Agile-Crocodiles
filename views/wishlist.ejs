@@ -3,22 +3,53 @@
     <%-include('header') %>
     <body>
         <%-include('navbar') %>
-        <div class = "container row">
-            <div class="col-xs-12 col-lg-4">
-                <ul class="list-group">
-                    <li class="list-group-item active">Book 1</li>
-                    <li class="list-group-item">Book 2</li>
-                    <li class="list-group-item">Book 3</li>
-                    <li class="list-group-item">Book 4</li>
-                    <li class="list-group-item">Book 5</li>
-                </ul>
-            </div>
-            <div class ="col-8 collapse d-lg-block">
-                <div>
-                    <div>Authoriship Info</div>
-                    <div>Find Out More</div>
+        <div class ="container p-3">
+            <div class = "row">
+                <div class="col-xs-12 col-lg-4">
+                    <ul class="list-group">
+                        <li class="list-group-item active">Book 1</li>
+                        <li class="list-group-item">Book 2</li>
+                        <li class="list-group-item">Book 3</li>
+                        <li class="list-group-item">Book 4</li>
+                        <li class="list-group-item">Book 5</li>
+                    </ul>
                 </div>
-                <div>Oneliner</div>
+                <div class ="col-xs-12 col-lg-8 collapse d-lg-block">
+
+                    <div class = "p-3">
+                        <h1>Very enticing Novel <small class="text-muted">By Ms Writes Alot</small></h1>
+                        <p>"A group of old men overcome racial differences to take on the world’s most powerful jeweler."</p>
+                        <div class = "row">
+                            <div class="col-6">
+                                <h2> Synopsis </h2>
+                                <p> Set in mythic pre-historic times, a young hobbit named Frodo Baggins inherits a magic ring 
+                                    from his elderly cousin Bilbo. Wise to the powers that the magic ring holds, the dark 
+                                    Lord Sauron wants it, knowing it will enable him to enslave the people of Middle Earth. 
+                                    In his effort to thwart Sauron, Frodo recruits the fellowship of a wizard, an elf, a dwarf 
+                                    and others on a mission to destroy the ring by casting it into the volcanic fires in 
+                                    the Crack of Doom. However, the ring unleashes its own power as a result of the struggle....</p>
+                            </div>
+                            <div lcass ="col-6">
+                                <h2>Find Out More</h2>
+                                <ul class="list-group">
+                                    <a class="nav-link" href="/match">GoodReads</a>
+                                    <a class="nav-link" href="/match">Amazon.com</a>
+                                    <a class="nav-link" href="/match">Amazon.co.uk</a>
+                                    <button type="button" class="btn btn-success m-1">Mark as Read</button>
+                                    <button type="button" class="btn btn-warning m-1">Remove From Wishlist</button>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class ="p-1">
+                        <h2>Read the book? Add your own one-liner!</h2>
+                        <form class = "p-1">
+                            <input class="form-control" type="text" placeholder="Readonly input here…" >
+                            <button type="submit" class="btn btn-primary m-1">Submit</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
