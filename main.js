@@ -40,6 +40,7 @@ require("./routes/main")(app);
 app.set("views",__dirname + "/views");
 app.use("/style",express.static(__dirname +"/style")); // allowing css style to be applied,
 app.use("/script",express.static(__dirname +"/script"));
+app.use("/assets",express.static(__dirname +"/assets"));
 app.set("view engine", "ejs"); // if EJS is used.
 app.engine("html", require("ejs").renderFile); // if EJS is used.
 app.listen(port, hostname, () => console.log(`Server running at http://${hostname}:${port}/`));
