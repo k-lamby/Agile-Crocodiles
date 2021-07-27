@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%-include('header') %>
+    <body>
+        <%-include('navbar') %>
+        <main class="container-fluid">
+            <div class="row">
+                <div class="row justify-content-center">
+                    <div class="col-4 align-self-end">
+                        <h2 class="text-center">Sign in</h2>
+                        <p>Welcome back! Sign in to see your matches and wishlist.</p>
+                        <form method="post" action="/login/">
+                            <div class="mb-3">
+                                <label for="loginUsername" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="loginUsername">
+                            </div>
+                            <div class="mb-3">
+                                <label for="loginPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="loginPassword">
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberLogin">
+                                <label class="form-check-label" for="rememberLogin">Remember me</label>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-4 align-self-end">
+                        <h2 class="text-center">Register Now</h2>
+                        <p>Don't have an account? No worries! Register your very own Bibliophile account today!</p>
+                        <form method="post" action="/register/new-user">
+                            <div class="mb-3">
+                                <label for="registerUsername" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="registerUsername">
+                            </div>
+                            <div class="mb-3">
+                                <label for="registerPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="registerPassword">
+                            </div>
+                            <div class="mb-3">
+                                <label for="registerPasswordConfirm" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="registerPasswordConfirm">
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

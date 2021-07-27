@@ -15,4 +15,8 @@ module.exports = function(app){
     app.get("/wishlist",function(req, res){
         res.render("wishlist.ejs", {title: "Wishlist"})
     })
+
+    app.get("/register",function(req, res){
+        res.render("register.ejs", {title: "Registration"})
+    })
 }
