@@ -351,3 +351,5 @@ MigrationBackup/
 
 *.code-workspace
 *.DS_Store
+
+.vagrant
