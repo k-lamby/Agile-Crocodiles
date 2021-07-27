@@ -30,7 +30,13 @@ quit;
 sudo mysql -u root bibliophile < bibliophile.sql
 ```
 
-Change default MySQL authentication method for `root` user. Newer versions of MySQL do not work out-of-the-box with default configuration. We must alter the authentication method for the `root` user in the following manner:
+Change default MySQL authentication method for `root` user. Newer versions of MySQL do not work out-of-the-box with default configuration. If you try to authenticate directly, the following error occurs:
+
+```
+error connecting: Error: ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MySQL client
+```
+
+Hence, we must alter the authentication method for the `root` user in the following manner:
 
 ```
 sudo mysql -u root
