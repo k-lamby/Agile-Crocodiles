@@ -19,4 +19,12 @@ module.exports = function(app){
     app.get("/register",function(req, res){
         res.render("register.ejs", {title: "Registration"})
     })
+
+    app.post("/login",function(req, res){
+        console.log("A post request was made to /login");
+    })
+
+    app.post("/register/new-user",function(req, res){
+        console.log("A post request was made to /register/new-user");
+    })
 }
