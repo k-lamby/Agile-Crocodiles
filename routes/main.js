@@ -1,4 +1,6 @@
 module.exports = function(app){
+    let bookInfo = [] // To store json objects for books in the wish list.
+    queryWishlist(); // Get the wish list beforehands.
 
     app.get("/",function(req, res){
         res.render("index.ejs", {title: "Main"})
@@ -12,8 +14,51 @@ module.exports = function(app){
         res.render("profile.ejs", {title: "Profile"})
     })
 
-    app.get("/wishlist",function(req, res){
-        res.render("wishlist.ejs", {title: "Wishlist"})
+    app.get("/wishlist", function(req, res){
+        var clean = bookInfo.filter((arr, index, self) =>
+        index === self.findIndex((t) => (t.title === arr.title && t.cover === arr.cover))) // remove duplicate json from bookInfo
+        res.render("wishlist.ejs", {title: "Wishlist", bookInfo : clean});
+    })
+
+    function formatData(queryResults)
+    {
+        let json = {
+            title : queryResults[0][0].name,
+            author : queryResults[1][0].name,
+            cover : queryResults[2][0].link
+        };
+        bookInfo.push(json);      
+    }
+
+    function queryWishlist(){
+        let id = "user1";
+        let query = ["SELECT * FROM wishlist WHERE userIDNum = (SELECT ID FROM credential WHERE userID ='" + id +"')"];
+        return new Promise((resolve, reject) => {
+            connection.query(query.join(';'), (err, results) =>{
+            if(err) reject(err);
+            for(let i = 0; i < results.length; i++)
+                    {
+                        let innerQuery = ["SELECT name FROM title WHERE ID = " + results[i].titleID, 
+                                        "SELECT name FROM author WHERE ID = (SELECT authorID FROM title where ID = " + results[i].titleID + ")",
+                                        "SELECT link FROM cover WHERE titleID = " + results[i].titleID];
+                        
+                        connection.query(innerQuery.join(';'), (err, qResults) => {
+                            if (err) reject(err);
+                            else
+                                resolve(formatData(qResults));
+                        });
+                    }
+            })
+        })
+    }
+
+    app.post("/wishlist/remove", async function(req, res){
+        let query = ["DELETE FROM wishlist WHERE titleID = (SELECT ID FROM title WHERE name = '" + req.body.title+"')"];
+        connection.query(query.join(';'), (err, results) => {
+            if (err) throw err;
+        })
+        queryWishlist();
+        await res.redirect("/wishlist");
     })
 
     app.get("/register",function(req, res){

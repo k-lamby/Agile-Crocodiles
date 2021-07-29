@@ -6,37 +6,25 @@
       <div class ="container p-3">
          <h1>Wishlist - Books you have liked</h1>
          <!-- Start of the first book details -->
-         <div class = "row h-100 p-3 justify-content-center align-items-center">
-            <div class="col-xs-12 col-lg-3">
-               <img src ="https://ia800606.us.archive.org/view_archive.php?archive=/32/items/olcovers642/olcovers642-M.zip&file=6429406-M.jpg" class="mx-auto d-block">
-            </div>
-            <div class ="col-xs-0 col-lg-9">
-               <div class = "p-3">
-                  <h2>
-                  Very enticing Novel <small class="text-muted">By Ms Writes Alot</small></h1>
-                  <p>"A group of old men overcome racial differences to take on the world’s most powerful jeweler."</p>
-                  <p class="text-info">Adventure, Horror, Action</p>
-                  <button type="button" class="btn btn-outline-success" onclick = "modalpopup('Very Enticing Novel');">Mark as Read</button>
-                  <button type="button" class="btn btn-outline-warning">Remove Book</button>
+         <% bookInfo.forEach(function(data){%>
+            <div class = "row h-100 p-3 justify-content-center align-items-center" id = "<%= data.title %>">
+               <div class="col-xs-12 col-lg-3">
+                  <img src ="<%= data.cover %>" class="mx-auto d-block">
+               </div>
+               <div class ="col-xs-0 col-lg-9">
+                  <div class = "p-3">
+                     <h2>
+                     <%= data.title %> <small class="text-muted">By <%= data.author %></small></h2>
+                     <p>"A group of old men overcome racial differences to take on the world’s most powerful jeweler."</p>
+                     <p class="text-info">Adventure, Horror, Action</p>
+                     <button type="button" class="btn btn-outline-success" onclick = "modalpopup('Very Enticing Novel');">Mark as Read</button>
+                     <form method ="post" action = "/wishlist/remove">
+                        <button type="submit" class="btn btn-outline-warning" name = title value = "<%= data.title %>">Remove Book</button>
+                     </form>
+                  </div>
                </div>
             </div>
-         </div>
-         <!-- Start of the second book details -->
-         <div class = "row h-100 p-3 justify-content-center align-items-center">
-            <div class="col-xs-12 col-lg-3">
-               <img src ="https://ia800606.us.archive.org/view_archive.php?archive=/32/items/olcovers642/olcovers642-M.zip&file=6429606-M.jpg" class="mx-auto d-block">
-            </div>
-            <div class ="col-xs-0 col-lg-9">
-               <div class = "p-3">
-                  <h2>
-                  Very Thrilling Novel <small class="text-muted">By Ms Writes Alot</small></h1>
-                  <p>"A group of old men overcome racial differences to take on the world’s most powerful jeweler."</p>
-                  <p class="text-info">Adventure, Horror, Action</p>
-                  <button type="button" class="btn btn-outline-success" onclick = "modalpopup('Very Thrilling Novel');">Mark as Read</button>
-                  <button type="button" class="btn btn-outline-warning">Remove Book</button>
-               </div>
-            </div>
-         </div>
+         <% }) %>
       </div>
       <!-- Start of the modal div -->
       <div class="modal justify-content-center align-items-center" tabindex="-1" role="dialog" id="one-liner-entry">
