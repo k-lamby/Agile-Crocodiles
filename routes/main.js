@@ -17,7 +17,7 @@ module.exports = function(app){
     app.get("/wishlist", function(req, res){
         var clean = bookInfo.filter((arr, index, self) =>
         index === self.findIndex((t) => (t.title === arr.title && t.cover === arr.cover))) // remove duplicate json from bookInfo
-        res.render("wishlist.ejs", {title: "Wishlist", bookInfo : clean});
+        res.render("wishlist.ejs", {title: "Wishlist", bookInfo : bookInfo});
     })
 
     function formatData(queryResults)
@@ -52,14 +52,15 @@ module.exports = function(app){
         })
     }
 
-    app.post("/wishlist/remove", async function(req, res){
+    app.post("/wishlist/remove", function(req, res){
+        bookInfo.splice(bookInfo.findIndex((element) => element.title == req.body.title), 1); // remove book from the array
         let query = ["DELETE FROM wishlist WHERE titleID = (SELECT ID FROM title WHERE name = '" + req.body.title+"')"];
         connection.query(query.join(';'), (err, results) => {
+            console.log("A book is removed from the wishlist");
             if (err) throw err;
+            res.redirect("/wishlist");
         })
-        queryWishlist();
-        await res.redirect("/wishlist");
-    })
+    });
 
     app.get("/register",function(req, res){
         res.render("register.ejs", {title: "Registration"})
