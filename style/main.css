@@ -1,0 +1,84 @@
+
+ *, *:before, *:after {
+	 box-sizing: border-box;
+}
+
+.book-match{
+  background-color: lightgray;
+  height:100vh;
+  overflow: hidden;
+}
+
+body{
+  overflow: hidden;
+}
+
+ .bookcard-container {
+	 width: 100%;
+   min-height: 520px;
+   display: flex;
+   justify-content: center;
+   padding-top:40px;
+}
+
+.bookcard {
+  display: inline-block;
+  width: 100vw;
+  max-width: 300px;
+  padding-bottom: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: absolute;
+  will-change: transform;
+  transition: all 0.3s ease-in-out;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
+}
+
+ .bookcard-contents {
+	 background: white;
+	 width: 300px;
+	 display: inline-block;
+	 margin: auto;
+   padding-top: 20px;
+	 border-radius: 19px;
+	 position: relative;
+	 text-align: center;
+	 box-shadow: -1px 15px 30px -12px black;
+	 z-index: 9999;
+}
+
+ .bookcard-image {
+	 position: relative;
+	 height: 230px;
+	 margin-bottom: 35px;
+	 border-top-left-radius: 14px;
+	 border-top-right-radius: 14px;
+}
+
+ .bookcard-image img {
+	 width: 200px;
+}
+
+ .clearfix:after {
+	 visibility: hidden;
+	 display: block;
+	 font-size: 0;
+	 content: " ";
+	 clear: both;
+	 height: 0;
+}
+ .slick-prev {
+	 left: 100px;
+	 z-index: 999;
+}
+ .slick-next {
+	 right: 100px;
+	 z-index: 999;
+}
+
+.button-container{
+  text-align: center;
+}
+ 

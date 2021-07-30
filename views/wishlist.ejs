@@ -17,9 +17,9 @@
                      <%= data.title %> <small class="text-muted">By <%= data.author %></small></h2>
                      <p>"A group of old men overcome racial differences to take on the world’s most powerful jeweler."</p>
                      <p class="text-info">Adventure, Horror, Action</p>
-                     <button type="button" class="btn btn-outline-success" onclick = "modalpopup('Very Enticing Novel');">Mark as Read</button>
+                     <button type="button" class="btn btn-outline-success mb-2" onclick = "modalpopup('Very Enticing Novel');">Mark as Read</button>
                      <form method ="post" action = "/wishlist/remove">
-                        <button type="submit" class="btn btn-outline-warning" name = title value = "<%= data.title %>">Remove Book</button>
+                        <button type="submit" class="btn btn-outline-warning" name = title value ="<%= data.title %>">Remove Book</button>
                      </form>
                   </div>
                </div>
@@ -41,8 +41,8 @@
                      <input type="text" class="form-control" placeholder="Enter one liner here...">
                   </div>
                   <div class="modal-footer">
-                     <button type="button" class="btn btn-outline-primary">Submit</button>
                      <button type="button" class="btn btn-outline-danger" id = "close-modal">Close</button>
+                     <button type="button" class="btn btn-outline-primary">Submit</button>
                   </div>
                </form>
             </div>
