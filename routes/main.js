@@ -17,6 +17,7 @@ module.exports = function(app){
     app.get("/wishlist", function(req, res){
         var clean = bookInfo.filter((arr, index, self) =>
         index === self.findIndex((t) => (t.title === arr.title && t.cover === arr.cover))) // remove duplicate json from bookInfo
+
         res.render("wishlist.ejs", {title: "Wishlist", bookInfo : clean});
     })
 
