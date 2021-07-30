@@ -6,6 +6,11 @@
 .book-match{
   background-color: lightgray;
   height:100vh;
+  overflow: hidden;
+}
+
+body{
+  overflow: hidden;
 }
 
  .bookcard-container {
