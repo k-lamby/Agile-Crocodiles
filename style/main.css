@@ -10,7 +10,11 @@
 }
 
 body{
-  /*overflow: hidden;*/
+  /*
+    We set the overflow-x hidden; property on body, so that when cards are
+    'liked', the swiped cards will not take up space to the left of the screen.
+  */
+  overflow-x: hidden;
 }
 
  .bookcard-container {
