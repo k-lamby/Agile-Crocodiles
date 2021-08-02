@@ -55,3 +55,9 @@ nodejs main.js
 ```
 
 On the host machine browser, the service can now be accessed via `127.0.0.1:3000`
+
+### Run unit test
+
+```
+npm test
+```
