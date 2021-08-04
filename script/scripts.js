@@ -9,6 +9,7 @@ function modalpopup(title){
     //Get the header to inser the relevant book title
     var titleText = document.getElementById("modal-book-title");
     titleText.innerHTML = title;
+    document.getElementById("modalTitle").value = title;
 
     //display the modal div
     modal.style.display = "block";

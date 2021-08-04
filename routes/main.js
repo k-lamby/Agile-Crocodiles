@@ -62,6 +62,22 @@ module.exports = function(app){
         })
     });
 
+    app.post("/wishlist/oneliner", function(req, res){
+        bookInfo.splice(bookInfo.findIndex((element) => element.title == req.body.title), 1); // remove book from the array
+        let query = ["INSERT INTO oneliner VALUES ((SELECT ID FROM title WHERE name = '" + req.body.modalTitle + "'), 9 ,'" + req.body.oneliner+ "');"];
+        connection.query(query.join(';'), (err, results) => {
+            console.log("One liner is added to the DB.");
+            if (err) throw err;
+
+            req.session.message = {
+                type: 'success',
+                intro: 'Thank you!',
+                message: 'Your one liner is successfully added.'
+            }
+            res.redirect("/wishlist");
+        })
+    });
+
     app.get("/register",function(req, res){
         res.render("register.ejs", {title: "Registration"})
     })

@@ -4,6 +4,11 @@
    <body>
       <%-include('partials/navbar') %>
       <div class ="container p-3">
+         <% if (message) { %>
+            <div id="alert" class = "alert alert-<%= message.type %>">
+                <strong> <%= message.intro %></strong> <%= message.message %>
+            </div>
+        <% } %>
          <h1>Wishlist - Books you have liked</h1>
          <!-- Start of the first book details -->
          <% bookInfo.forEach(function(data){%>
@@ -17,9 +22,9 @@
                      <%= data.title %> <small class="text-muted">By <%= data.author %></small></h2>
                      <p>"A group of old men overcome racial differences to take on the world’s most powerful jeweler."</p>
                      <p class="text-info">Adventure, Horror, Action</p>
-                     <button type="button" class="btn btn-outline-success mb-2" onclick = "modalpopup('Very Enticing Novel');">Mark as Read</button>
+                     <button type="button" class="btn btn-outline-success mb-2" onclick = "modalpopup('<%= data.title %>');">Mark as Read</button>
                      <form method ="post" action = "/wishlist/remove">
-                        <button type="submit" class="btn btn-outline-warning" name = title value ="<%= data.title %>">Remove Book</button>
+                        <button type="submit" class="btn btn-outline-warning" name = "title" value ="<%= data.title %>">Remove Book</button>
                      </form>
                   </div>
                </div>
@@ -36,13 +41,14 @@
                <div class = "modal-sub-header">
                   <h6 id="modal-book-title" class = "text-muted p-3"></h6>
                </div>
-               <form>
+               <form method = "POST" action = "/wishlist/oneliner">
                   <div class="modal-body">
-                     <input type="text" class="form-control" placeholder="Enter one liner here...">
+                     <input type="text" class="form-control" name = "oneliner" placeholder="Enter one liner here...">
+                     <input type="hidden" name="modalTitle" id="modalTitle" />
                   </div>
                   <div class="modal-footer">
-                     <button type="button" class="btn btn-outline-danger" id = "close-modal">Close</button>
-                     <button type="button" class="btn btn-outline-primary">Submit</button>
+                     <button type="button" class="btn btn-outline-danger" id="close-modal">Close</button>
+                     <button type="submit" class="btn btn-outline-primary">Submit</button>
                   </div>
                </form>
             </div>

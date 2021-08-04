@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `author`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `author` (
-  `ID` int NOT NULL AUTO_INCREMENT,
+  `ID` int NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -79,7 +79,7 @@ CREATE TABLE `credential` (
   `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `userID` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,8 +88,35 @@ CREATE TABLE `credential` (
 
 LOCK TABLES `credential` WRITE;
 /*!40000 ALTER TABLE `credential` DISABLE KEYS */;
-INSERT INTO `credential` VALUES (9,'user1','dd');
+INSERT INTO `credential` VALUES (9,'user1','dd'),(12,'undefined','undefined');
 /*!40000 ALTER TABLE `credential` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oneliner`
+--
+
+DROP TABLE IF EXISTS `oneliner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `oneliner` (
+  `titleID` int NOT NULL,
+  `userID` int NOT NULL,
+  `oneline` varchar(255) NOT NULL,
+  PRIMARY KEY (`titleID`,`userID`,`oneline`),
+  KEY `userID` (`userID`),
+  CONSTRAINT `oneliner_ibfk_1` FOREIGN KEY (`titleID`) REFERENCES `title` (`ID`),
+  CONSTRAINT `oneliner_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `credential` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oneliner`
+--
+
+LOCK TABLES `oneliner` WRITE;
+/*!40000 ALTER TABLE `oneliner` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oneliner` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -167,7 +194,7 @@ CREATE TABLE `wishlist` (
 
 LOCK TABLES `wishlist` WRITE;
 /*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
-INSERT INTO `wishlist` VALUES (9,2),(9,1);
+INSERT INTO `wishlist` VALUES (9,1),(9,1),(9,2);
 /*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -180,4 +207,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-29 22:14:49
+-- Dump completed on 2021-08-04  9:00:36
