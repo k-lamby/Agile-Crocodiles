@@ -27,6 +27,7 @@
     "html": "^1.0.0",
     "mocha": "^9.0.3",
     "mysql": "^2.18.1",
-    "node.js": "0.0.1-security"
+    "node.js": "0.0.1-security",
+    "request": "^2.88.2"
   }
 }

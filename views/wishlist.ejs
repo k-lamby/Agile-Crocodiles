@@ -44,7 +44,8 @@
                <form method = "POST" action = "/wishlist/oneliner">
                   <div class="modal-body">
                      <input type="text" class="form-control" name = "oneliner" placeholder="Enter one liner here...">
-                     <input type="hidden" name="modalTitle" id="modalTitle" />
+                     <!-- Add a hiddlen input element to save the title of the book which the popup concerns. -->
+                     <input type="hidden" name="modalTitle" id="modalTitle" /> 
                   </div>
                   <div class="modal-footer">
                      <button type="button" class="btn btn-outline-danger" id="close-modal">Close</button>

@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
+const request = require("request");
 const app = express();
 const port = 3000
 
@@ -35,6 +36,7 @@ connection.connect((err) => {
 });
 
 global.connection = connection;
+global.request = request;
 
 require("./routes/main")(app);
 app.set("views",__dirname + "/views");

@@ -121,4 +121,39 @@ module.exports = function(app){
         }
         console.log("A post request was made to /register/new-user");
     })
+
+    app.get("/form", (req, res) =>{
+        let info = {
+            title : "",
+            author : "",
+            cover : "",
+            ISBN : "",
+            description : ""
+        }
+        res.render("form.ejs", {title: "Form", result : info });
+    })
+
+    app.post("/form", (req, res) =>{
+        let url = "https://www.googleapis.com/books/v1/volumes?q="+req.body.title+"+inauthor:"+req.body.author+"&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1";
+        request(url, {json: true}, (err, response, body)=> {
+
+            let info = {
+                title : "",
+                author : "",
+                cover : "",
+                ISBN : "",
+                description : ""
+            }
+    
+            if(err) return console.log(err);
+            info.title = body.items[0].volumeInfo.title;
+            info.author = body.items[0].volumeInfo.authors;
+            info.publisher = body.items[0].volumeInfo.publisher;
+            info.ISBN = body.items[0].volumeInfo.industryIdentifiers[1].identifier;
+            info.cover = body.items[0].volumeInfo.imageLinks.thumbnail;
+            info.description = body.items[0].volumeInfo.description;
+
+            res.render("form.ejs", {title : "Form", result : info})
+        })
+    })
 }
