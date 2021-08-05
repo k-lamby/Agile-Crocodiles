@@ -4,6 +4,14 @@
     <body>
         <%-include('partials/navbar') %>
         Profile
+        <form method = "POST" action = "/profile">
+            <input type="checkbox" id = "romance" name = "genre" value = "Romance">
+            <label for = "romance"> Romance </label>
+            <input type="checkbox" id = "science-fiction" name = "genre" value = "Science Fiction">
+            <label for = "science-fiction"> Science Fiction </label>
+            <button type = "submit"> Save </button>
+        </form>
+        
         <%-include('partials/footer') %>
     </body>
 </html>
