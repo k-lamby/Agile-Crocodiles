@@ -1,5 +1,7 @@
 module.exports = (app) => {
-    let bookInfo = [] // To store json objects for books in the wish list.
+    let bookInfo = []; // To store json objects for books in the wish list.
+    let userSetting = [];
+    queryUsersetting();
     queryWishlist(); // Get the wish list beforehands.
 
     app.get("/",(req, res) => {
@@ -7,17 +9,20 @@ module.exports = (app) => {
     })
 
     app.get("/match",(req, res) => {
+        let query = [];
+        for (let genre of userSetting){
+            query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"');");
+        }
+        connection.query(query.join(";"), (err, results) =>{
+            if (err) throw err;
+            console.log(results);
+        })
+
         res.render("match.ejs", {title: "Match"});
     })
 
     app.get("/profile",(req, res) => {
-        let query = ["SELECT preference FROM userProfile WHERE userIDNum = 9"]
-        connection.query(query.join(";"), (err, results) => {
-            if(err) throw err;
-            genreList = results[0].preference.split(";"); //tokenize the user preference string by ";"
-            genreList.pop(); // remove the last element in the array which is an empty string.
-            res.render("profile.ejs", {title: "Profile", genreList : genreList});
-        });
+        res.render("profile.ejs", {title: "Profile", genreList : userSetting});
     })
 
     app.post("/profile", (req, res) => {
@@ -30,6 +35,7 @@ module.exports = (app) => {
                 connection.query(query.join(";"), (err, results) => {
                     if(err) throw err;
                     console.log("User preference has been saved.")
+                    queryUsersetting();
                 });
             }
             else {
@@ -82,7 +88,7 @@ module.exports = (app) => {
             for(let i = 0; i < results.length; i++)
                     {
                         let innerQuery = ["SELECT name FROM title WHERE ID = " + results[i].titleID, 
-                                        "SELECT name FROM author WHERE ID = (SELECT authorID FROM title where ID = " + results[i].titleID + ")",
+                                        "SELECT author FROM author WHERE ID = (SELECT authorID FROM title where ID = " + results[i].titleID + ")",
                                         "SELECT link FROM cover WHERE titleID = " + results[i].titleID];
                         
                         connection.query(innerQuery.join(';'), (err, qResults) => {
@@ -93,6 +99,20 @@ module.exports = (app) => {
                     }
             })
         })
+    }
+
+    function queryUsersetting(){
+        
+        let query = ["SELECT preference FROM userProfile WHERE userIDNum = 9"];
+        return new Promise((resolve, reject) => {
+            connection.query(query.join(";"), (err, results) => {
+                if(err) reject(err);
+                genreList = results[0].preference.split(";"); //tokenize the user preference string by ";"
+                genreList.pop(); // remove the last element in the array which is an empty string.
+                resolve(userSetting = genreList);
+            });
+        })
+
     }
 
     app.post("/wishlist/remove", (req, res) => {
