@@ -20,16 +20,18 @@ module.exports = function(app){
         res.render("wishlist.ejs", {title: "Wishlist", bookInfo : clean});
     })
 
-    function formatData(queryResults)
+    // formatData function process the result of a query by converting it into a JSON object and pushing it to bookInfo array.
+    function formatData(queryResult)
     {
         let json = {
-            title : queryResults[0][0].name,
-            author : queryResults[1][0].name,
-            cover : queryResults[2][0].link
+            title : queryResult[0][0].name,
+            author : queryResult[1][0].name,
+            cover : queryResult[2][0].link
         };
         bookInfo.push(json);      
     }
 
+    //queryWishlist function handles nested queries by returing promises. Every query result will be stored on bookInfo.
     function queryWishlist(){
         let id = "user1";
         let query = ["SELECT * FROM wishlist WHERE userIDNum = (SELECT ID FROM credential WHERE userID ='" + id +"')"];
