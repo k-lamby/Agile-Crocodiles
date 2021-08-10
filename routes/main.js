@@ -15,10 +15,8 @@ module.exports = (app) => {
         }
         connection.query(query.join(";"), (err, results) =>{
             if (err) throw err;
-            console.log(results);
+            res.render("match.ejs", {title: "Match", bookInfo: results});
         })
-
-        res.render("match.ejs", {title: "Match"});
     })
 
     app.get("/profile",(req, res) => {
@@ -102,7 +100,6 @@ module.exports = (app) => {
     }
 
     function queryUsersetting(){
-        
         let query = ["SELECT preference FROM userProfile WHERE userIDNum = 9"];
         return new Promise((resolve, reject) => {
             connection.query(query.join(";"), (err, results) => {

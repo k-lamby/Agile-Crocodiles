@@ -5,58 +5,21 @@
       <%-include('partials/navbar') %>
       <div class ="main book-match">
          <div class="bookcard-container">
-            <div class="bookcard">
-               <div class="bookcard-contents">
-                  <div class="bookcard-image">
-                     <img src="https://ia800606.us.archive.org/view_archive.php?archive=/32/items/olcovers642/olcovers642-M.zip&file=6429406-M.jpg" alt="wizard" />
-                  </div>
-                  <div class="bookcard-title p-3">
-                     <h4>The Biggest Book of Bookland</h4>
-                  </div>
-                  <div class="bookcard-author p-3">
-                     <h6>By Big Book Writer</h6>
-                  </div>
-               </div>
-            </div>
-            <div class="bookcard">
-               <div class="bookcard-contents">
-                  <div class="bookcard-image">
-                     <img src="https://ia800606.us.archive.org/view_archive.php?archive=/32/items/olcovers642/olcovers642-M.zip&file=6429306-M.jpg" alt="wizard" />
-                  </div>
-                  <div class="bookcard-title p-3">
-                     <h4>The Biggest Book of Bookland</h4>
-                  </div>
-                  <div class="bookcard-author p-3">
-                     <h6>By Big Book Writer</h6>
+            <% bookInfo.forEach(function(data){ %>
+               <div class="bookcard">
+                  <div class="bookcard-contents">
+                     <div class="bookcard-image">
+                        <img src="<%= data.link %>" alt="wizard" />
+                     </div>
+                     <div class="bookcard-title p-3">
+                        <h4><%= data.name %></h4>
+                     </div>
+                     <div class="bookcard-author p-3">
+                        <h6>By <%= data.author %></h6>
+                     </div>
                   </div>
                </div>
-            </div>
-            <div class="bookcard">
-               <div class="bookcard-contents">
-                  <div class="bookcard-image">
-                     <img src="https://ia800606.us.archive.org/view_archive.php?archive=/32/items/olcovers642/olcovers642-M.zip&file=6429206-M.jpg" alt="wizard" />
-                  </div>
-                  <div class="bookcard-title p-3">
-                     <h4>The Biggest Book of Bookland</h4>
-                  </div>
-                  <div class="bookcard-author p-3">
-                     <h6>By Big Book Writer</h6>
-                  </div>
-               </div>
-            </div>
-            <div class="bookcard">
-               <div class="bookcard-contents">
-                  <div class="bookcard-image">
-                     <img src="https://ia800606.us.archive.org/view_archive.php?archive=/32/items/olcovers642/olcovers642-M.zip&file=6429106-M.jpg" alt="wizard" />
-                  </div>
-                  <div class="bookcard-title p-3">
-                     <h4>The Biggest Book of Bookland</h4>
-                  </div>
-                  <div class="bookcard-author p-3">
-                     <h6>By Big Book Writer</h6>
-                  </div>
-               </div>
-            </div>
+            <% }) %>
          </div>
          <div class="button-container">
             <button type="button" class="btn btn-danger" id="nope">NOPE</button>
