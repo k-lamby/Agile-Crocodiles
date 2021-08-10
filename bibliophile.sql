@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `author`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `author` (
   `ID` int NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `author` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -93,6 +93,30 @@ INSERT INTO `credential` VALUES (9,'user1','dd'),(12,'undefined','undefined');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `genre`
+--
+
+DROP TABLE IF EXISTS `genre`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `genre` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `genre`
+--
+
+LOCK TABLES `genre` WRITE;
+/*!40000 ALTER TABLE `genre` DISABLE KEYS */;
+INSERT INTO `genre` VALUES (1,'Romance'),(2,'Science Fiction');
+/*!40000 ALTER TABLE `genre` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `oneliner`
 --
 
@@ -155,8 +179,11 @@ CREATE TABLE `title` (
   `authorID` int DEFAULT NULL,
   `adultContent` tinyint(1) DEFAULT NULL,
   `ISBN` varchar(255) DEFAULT NULL,
+  `genreID` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `authorID` (`authorID`),
+  KEY `PK_Genre` (`genreID`),
+  CONSTRAINT `PK_Genre` FOREIGN KEY (`genreID`) REFERENCES `genre` (`ID`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`authorID`) REFERENCES `author` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -167,8 +194,35 @@ CREATE TABLE `title` (
 
 LOCK TABLES `title` WRITE;
 /*!40000 ALTER TABLE `title` DISABLE KEYS */;
-INSERT INTO `title` VALUES (1,'Very Enticing Novel',1,0,'ABC'),(2,'Very Thrilling Novel',1,0,'ASCVB');
+INSERT INTO `title` VALUES (1,'Very Enticing Novel',1,0,'ABC',1),(2,'Very Thrilling Novel',1,0,'ASCVB',2);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `userProfile`
+--
+
+DROP TABLE IF EXISTS `userProfile`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `userProfile` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `userIDNum` int DEFAULT NULL,
+  `preference` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `userIDNum` (`userIDNum`),
+  CONSTRAINT `userprofile_ibfk_1` FOREIGN KEY (`userIDNum`) REFERENCES `credential` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `userProfile`
+--
+
+LOCK TABLES `userProfile` WRITE;
+/*!40000 ALTER TABLE `userProfile` DISABLE KEYS */;
+INSERT INTO `userProfile` VALUES (1,9,'Science Fiction;');
+/*!40000 ALTER TABLE `userProfile` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -207,4 +261,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-04  9:00:36
+-- Dump completed on 2021-08-10 15:31:30
