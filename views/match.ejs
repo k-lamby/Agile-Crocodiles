@@ -4,6 +4,11 @@
    <body onload='cardAnimation();'>
       <%-include('partials/navbar') %>
       <div class ="main book-match">
+         <% if (message) { %>
+            <div id="alert" class = "alert alert-<%= message.type %>">
+                <strong> <%= message.intro %></strong> <%= message.message %>
+            </div>
+        <% } %>
          <div class = "link">
             <button id = "add-book-button" class = "btn btn-info" onclick = "formPopup();"> Add books </button>
          </div>
@@ -49,30 +54,57 @@
                </form>
             </div>
          </div>
-
-         <% if(result.title !== ""){%>
-            <div class = "result">
-               <form method="POST" action = "/form/add"> 
+      </div>
+      <% if(result.title !== "" && flag == "y"){%>
+      <div class = "modal justify-content-center align-items-center" role="dialog" style="display: block;" id="add-book-result">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-light">
+               <div class="modal-header bg-dark">
+                  <h5 class="modal-title text-white">Is this book what you are looking for?</h5>
+               </div>
+               <form method="POST" action = "/match/add"> 
                   <div class = "row h-100 p-3 justify-content-center align-items-center">
-                     <h1> Is this book what you are looking for? </h1>
-                  
-                     <div class = "col-xs-12 col-lg-3"> 
+                     <div class = "col-m-6 col-lg-3"> 
                            <img src = "<%= result.cover %>" class = "mx-auto d-block">
                      </div>
-                     <div class = "col-xs-0 col-lg-9">
+                     <div class = "col-m-6 col-lg-9">
                            <div class = "p-3">
-                              <h2>
-                                 <%= result.title %> <small class="text-muted">By <%= result.author %></small></h2>
+                              <h2><%= result.title %> </h2>
+                              <small class="text-muted">By <%= result.author %></small>
                                  <p> <%= result.description %></p>
                                  <p>ISBN : <%= result.ISBN %></p>
+                                 <p>Adult Content : <%= result.adultContent %></p>
+                                 <p>Genre : <%= result.genre %></p>
                            </div>
                      </div>
                   </div>
-                  <button type = "submit"> Yes! </button>
+                  <input name = "cover" value = "<%= result.cover %>" style = "display: none;">
+                  <input name = "author" value = "<%= result.author %>" style = "display: none;">
+                  <input name = "ISBN" value = "<%= result.ISBN %>" style = "display: none;">
+                  <input name = "title" value = "<%= result.title %>" style = "display: none;">
+                  <input name = "genre" value = "<%= result.genre %>" style = "display: none;">
+                  <input name = "adultContent" value = "<%= result.adultContent %>" style = "display: none;">
+
+                  <div class = "add-book-button-container">
+                     <button type = "submit" class = "btn btn-success"> Yes </button>
+                     <button type = "button" class = "btn btn-danger"> No </button>
+                  </div>
                </form>
             </div>
-         <% } %>
+         </div>
       </div>
+      <% } %>
+      <% if(flag == "n"){%>
+         <div class = "modal justify-content-center align-items-center" role="dialog" style="display: block;" id="add-book-result">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+               <div class="modal-content bg-light">
+                  <div class="modal-header bg-dark">
+                     <h5 class="modal-title text-white">We couldn't find the book you were looking for. Please check if you provided all the details correctly</h5>
+                  </div>
+               </div>
+            </div>
+         </div>
+      <% } %>
       <%-include('partials/footer') %>
    </body>
 </html>

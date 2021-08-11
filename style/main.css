@@ -95,3 +95,9 @@ body{
 	float: right;
 	margin: 10px;
 }
+
+.add-book-button-container{
+	padding-left: 200px;
+	padding-bottom: 30px;
+}
+

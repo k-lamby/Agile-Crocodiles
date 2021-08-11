@@ -24,7 +24,7 @@ module.exports = (app) => {
         }
         connection.query(query.join(";"), (err, results) =>{
             if (err) throw err;
-            res.render("match.ejs", {title: "Match", bookInfo: results, result: info});
+            res.render("match.ejs", {title: "Match", bookInfo: results, result: info, flag : ""});
         })
     })
 
@@ -37,18 +37,93 @@ module.exports = (app) => {
                 author : "",
                 cover : "",
                 ISBN : "",
-                description : ""
+                description : "",
+                adultContent : "",
+                genre : ""
             }
             
-            if(err) return console.log(err);
-            info.title = body.items[0].volumeInfo.title;
-            info.author = body.items[0].volumeInfo.authors;
-            info.publisher = body.items[0].volumeInfo.publisher;
-            info.ISBN = body.items[0].volumeInfo.industryIdentifiers[1].identifier;
-            info.cover = body.items[0].volumeInfo.imageLinks.thumbnail;
-            info.description = body.items[0].volumeInfo.description;
-            let flag = "y"
-            res.render("match.ejs", {title : "Form", result : info, flag : flag})
+            if(err) {
+                flag = "n"
+            }
+            else{
+                info.title = body.items[0].volumeInfo.title;
+                info.author = body.items[0].volumeInfo.authors;
+                info.publisher = body.items[0].volumeInfo.publisher;
+                info.description = body.items[0].volumeInfo.description.substring(0, 200) + "...";
+                info.adultContent = body.items[0].volumeInfo.maturityRating;
+                try{
+                    info.genre = body.items[0].volumeInfo.categories[0];
+                }
+                catch{
+                    info.genre = "unknown";
+                }
+
+                try{
+                    info.ISBN = body.items[0].volumeInfo.industryIdentifiers[1].identifier;
+                }
+                catch{
+                    info.ISBN = "";
+                }
+
+                try{
+                    info.cover = body.items[0].volumeInfo.imageLinks.thumbnail;
+                }
+                catch{
+                    info.cover = "";
+                }
+                flag = "y"
+            }
+            let query = [];
+            for (let genre of userSetting){
+                query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"');");
+            }
+            connection.query(query.join(";"), (err, results) =>{
+                if (err) throw err;
+                res.render("match.ejs", {title: "Match", bookInfo: results, result: info, flag : flag});
+            })
+        })
+
+    })
+
+    app.post("/match/add", (req, res) => {
+        let adultContent = false;
+        if(req.body.adultContent != "NOT_MATURE")
+        {
+            adultContent = true
+        }
+
+        connection.query("INSERT INTO author (author) VALUES ('" + req.body.author+"')", (err) => {
+            console.log("This author is already in the database.");
+        });
+
+        connection.query("INSERT INTO genre (name) VALUES ('"+ req.body.genre+"')", (err)=> {
+            console.log("This genre is already in the database.");
+        });
+
+        let query2 = ["INSERT INTO title (name, authorID, ISBN, adultContent, genreID) VALUES ('" + req.body.title + "',"
+                        + "(SELECT ID FROM author WHERE author = '"+ req.body.author+"')" + ",'" 
+                        + req.body.ISBN + "'," + adultContent +", (SELECT ID FROM genre WHERE name = '" + req.body.genre + "'))"];
+        connection.query(query2.join(";"), (err, results) => {
+            if(err) {
+                req.session.message = {
+                    type: 'danger',
+                    intro: 'Fail!',
+                    message: 'This book is already in the database.'
+                }
+                res.redirect("/match");
+            }
+            else{
+                let query3 = "INSERT INTO cover (titleID, link) VALUES ( (SELECT ID FROM title WHERE name = '"+ req.body.title+ "'), '"+ req.body.link + "')";
+                connection.query(query3, (err, results) => {
+                    console.log("A new book is added to the database.")
+                    req.session.message =  {
+                    type: 'success',
+                    intro: 'Success!',
+                    message: 'The book is successfully added to the database.'
+                    }
+                    res.redirect("/match");
+                })
+            }
         })
     })
 
