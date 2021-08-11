@@ -19,7 +19,7 @@ body{
 
  .bookcard-container {
 	 width: 100%;
-   min-height: 520px;
+   min-height: 600px;
    display: flex;
    justify-content: center;
    padding-top:40px;
@@ -43,9 +43,10 @@ body{
  .bookcard-contents {
 	 background: white;
 	 width: 300px;
+	 height: 500px;
 	 display: inline-block;
 	 margin: auto;
-   padding-top: 20px;
+   	 padding-top: 20px;
 	 border-radius: 19px;
 	 position: relative;
 	 text-align: center;
@@ -59,11 +60,13 @@ body{
 	 margin-bottom: 35px;
 	 border-top-left-radius: 14px;
 	 border-top-right-radius: 14px;
+	 overflow:hidden;
 }
 
  .bookcard-image img {
 	 height: 260px;
 	 width: 200px;
+	 max-height:400px;
 }
 
  .clearfix:after {

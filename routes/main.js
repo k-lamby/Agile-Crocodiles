@@ -9,7 +9,6 @@ module.exports = (app) => {
     })
 
     app.get("/match",(req, res) => {
-
         let info = {
             title : "",
             author : "",
@@ -235,7 +234,7 @@ module.exports = (app) => {
         let query = ["INSERT INTO oneliner VALUES ((SELECT ID FROM title WHERE name = '" + req.body.modalTitle + "'), 9 ,'" + req.body.oneliner+ "');"];
         connection.query(query.join(';'), (err, results) => {
             console.log("One liner is added to the DB.");
-            if (err) throw err;
+            if (err) throw err;   
 
             req.session.message = {
                 type: 'success',
@@ -288,41 +287,5 @@ module.exports = (app) => {
             res.redirect('/register');
         }
         console.log("A post request was made to /register/new-user");
-    })
-
-    app.get("/form", (req, res) =>{
-        let info = {
-            title : "",
-            author : "",
-            cover : "",
-            ISBN : "",
-            description : ""
-        }
-        res.render("form.ejs", {title: "Form", result : info });
-    })
-
-    app.post("/form", (req, res) =>{
-        let url = "https://www.googleapis.com/books/v1/volumes?q="+req.body.title+"+inauthor:"+req.body.author+"&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1";
-        request(url, {json: true}, (err, response, body)=> {
-
-            let info = {
-                title : "",
-                author : "",
-                cover : "",
-                ISBN : "",
-                description : ""
-            }
-
-            console.log(body.items)
-            if(err) return console.log(err);
-            info.title = body.items[0].volumeInfo.title;
-            info.author = body.items[0].volumeInfo.authors;
-            info.publisher = body.items[0].volumeInfo.publisher;
-            info.ISBN = body.items[0].volumeInfo.industryIdentifiers[1].identifier;
-            info.cover = body.items[0].volumeInfo.imageLinks.thumbnail;
-            info.description = body.items[0].volumeInfo.description;
-
-            res.render("form.ejs", {title : "Form", result : info})
-        })
     })
 }
