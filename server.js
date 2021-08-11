@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -5,9 +6,9 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const request = require("request");
 const app = express();
-const port = 3000
+const port = process.env.PORT;
 
-const hostname = '0.0.0.0';
+const hostname = process.env.NODE_HOST;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -20,12 +21,21 @@ app.use((req, res, next) =>{
 })
 
 var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'bibliophile',
+  host     : process.env.DB_HOST,
+  user     : process.env.DB_USER,
+  password : process.env.DB_PASSWORD,
+  database : process.env.DB_NAME,
   multipleStatements: true
 });
+
+
+// var connection = mysql.createConnection({
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : '',
+//   database : 'bibliophile',
+//   multipleStatements: true
+// });
 
 connection.connect((err) => {
     if (err) {
