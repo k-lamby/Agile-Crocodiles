@@ -45,33 +45,50 @@ module.exports = (app) => {
                 flag = "n"
             }
             else{
-                info.title = body.items[0].volumeInfo.title;
-                info.author = body.items[0].volumeInfo.authors;
-                info.publisher = body.items[0].volumeInfo.publisher;
-                info.description = body.items[0].volumeInfo.description.substring(0, 200) + "...";
-                info.adultContent = body.items[0].volumeInfo.maturityRating;
-                try{
-                    info.genre = body.items[0].volumeInfo.categories[0];
-                }
-                catch{
-                    info.genre = "unknown";
-                }
-
-                try{
-                    info.ISBN = body.items[0].volumeInfo.industryIdentifiers[1].identifier;
-                }
-                catch{
-                    info.ISBN = "";
-                }
-
-                try{
-                    info.cover = body.items[0].volumeInfo.imageLinks.thumbnail;
-                }
-                catch{
-                    info.cover = "";
-                }
-                flag = "y"
+                if(typeof body.items === "undefined"){
+                    flag = "n" 
+                } 
+                else{
+                    info.title = body.items[0].volumeInfo.title;
+                    info.author = body.items[0].volumeInfo.authors;
+                    info.publisher = body.items[0].volumeInfo.publisher;
+    
+                    try{
+                        info.adultContent = body.items[0].volumeInfo.maturityRating;
+                    }catch{
+                        info.adultContent = ""
+                    }
+                    
+                    try{
+                        info.description = body.items[0].volumeInfo.description.substring(0, 200) + "...";
+                    }catch{
+                        info.description = "";
+                    }
+                    
+                    try{
+                        info.genre = body.items[0].volumeInfo.categories[0];
+                    }
+                    catch{
+                        info.genre = "unknown";
+                    }
+    
+                    try{
+                        info.ISBN = body.items[0].volumeInfo.industryIdentifiers[1].identifier;
+                    }
+                    catch{
+                        info.ISBN = "";
+                    }
+    
+                    try{
+                        info.cover = body.items[0].volumeInfo.imageLinks.thumbnail;
+                    }
+                    catch{
+                        info.cover = "";
+                    }
+                    flag = "y"
+                }  
             }
+
             let query = [];
             for (let genre of userSetting){
                 query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"');");

@@ -88,7 +88,7 @@
 
                   <div class = "add-book-button-container">
                      <button type = "submit" class = "btn btn-success"> Yes </button>
-                     <button type = "button" class = "btn btn-danger"> No </button>
+                     <button type = "button" class = "btn btn-danger" onClick = "removeModal();"> No </button>
                   </div>
                </form>
             </div>
@@ -101,6 +101,9 @@
                <div class="modal-content bg-light">
                   <div class="modal-header bg-dark">
                      <h5 class="modal-title text-white">We couldn't find the book you were looking for. Please check if you provided all the details correctly</h5>
+                  </div>
+                  <div class = "add-book-button-container">
+                     <button type = "button" class = "btn btn-info" onClick = "removeModal();"> Exit </button>
                   </div>
                </div>
             </div>

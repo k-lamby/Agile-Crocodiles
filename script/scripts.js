@@ -89,13 +89,11 @@ function modalpopup(title){
    };
  }
 
-
 function formPopup() {
     // Get the modal
     var modal = document.getElementById("add-book");
-    var form = document.getElementById("add-book-form");
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
+    window.onclick = (event) => {
       if(modal.style.display == "none")
       {
         modal.style.display = "block";
@@ -106,4 +104,9 @@ function formPopup() {
         }
       }
     }
+}
+
+function removeModal() {
+  var modal = document.getElementById("add-book-result");
+  modal.style.display = "none";
 }
