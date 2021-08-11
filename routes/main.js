@@ -9,13 +9,46 @@ module.exports = (app) => {
     })
 
     app.get("/match",(req, res) => {
+
+        let info = {
+            title : "",
+            author : "",
+            cover : "",
+            ISBN : "",
+            description : ""
+        }
+
         let query = [];
         for (let genre of userSetting){
             query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"');");
         }
         connection.query(query.join(";"), (err, results) =>{
             if (err) throw err;
-            res.render("match.ejs", {title: "Match", bookInfo: results});
+            res.render("match.ejs", {title: "Match", bookInfo: results, result: info});
+        })
+    })
+
+    app.post("/match/form", (req, res) =>{
+        let url = "https://www.googleapis.com/books/v1/volumes?q="+req.body.title+"+inauthor:"+req.body.author+"&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1";
+        request(url, {json: true}, (err, response, body)=> {
+
+            let info = {
+                title : "",
+                author : "",
+                cover : "",
+                ISBN : "",
+                description : ""
+            }
+            
+            if(err) return console.log(err);
+            info.title = body.items[0].volumeInfo.title;
+            info.author = body.items[0].volumeInfo.authors;
+            info.publisher = body.items[0].volumeInfo.publisher;
+            info.ISBN = body.items[0].volumeInfo.industryIdentifiers[1].identifier;
+            info.cover = body.items[0].volumeInfo.imageLinks.thumbnail;
+            info.description = body.items[0].volumeInfo.description;
+            let flag = "y"
+            res.render("match.ejs", {title : "Form", result : info, flag : flag})
         })
     })
 
@@ -204,7 +237,8 @@ module.exports = (app) => {
                 ISBN : "",
                 description : ""
             }
-    
+
+            console.log(body.items)
             if(err) return console.log(err);
             info.title = body.items[0].volumeInfo.title;
             info.author = body.items[0].volumeInfo.authors;

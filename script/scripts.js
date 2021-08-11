@@ -90,3 +90,20 @@ function modalpopup(title){
  }
 
 
+function formPopup() {
+    // Get the modal
+    var modal = document.getElementById("add-book");
+    var form = document.getElementById("add-book-form");
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if(modal.style.display == "none")
+      {
+        modal.style.display = "block";
+      }
+      else{
+        if(event.target == modal){
+          modal.style.display="none";
+        }
+      }
+    }
+}

@@ -4,6 +4,9 @@
    <body onload='cardAnimation();'>
       <%-include('partials/navbar') %>
       <div class ="main book-match">
+         <div class = "link">
+            <button id = "add-book-button" class = "btn btn-info" onclick = "formPopup();"> Add books </button>
+         </div>
          <div class="bookcard-container">
             <% bookInfo.forEach(function(data){ %>
                <div class="bookcard">
@@ -26,6 +29,51 @@
             <button type="button" class="btn btn-success" id="love">LIKE</button>
          </div>
       </div>
+
+      <div class = "modal justify-content-center align-items-center" role="dialog" style="display: none;" id="add-book">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-light">
+               <div class="modal-header bg-dark">
+                  <h5 class="modal-title text-white">Would you like to add a book?</h5>
+               </div>
+               <form method ="POST" id = "add-book-form" action = "/match/form">
+                  <label for = "book-title" class = "book-form-content" >Title : </label>
+                  <input class = "book-form-content" name = "title" id = "book-title" placeholder="title"/> <br>
+                  <label for = "book-author" class = "book-form-content" >Author : </label>
+                  <input class = "book-form-content" name = "author" id = "book-author" placeholder="author"/><br>
+                  <label for = "book-ISBN" class = "book-form-content" >ISBN : </label>
+                  <input class = "book-form-content" name = "ISBN" id = "book-ISBN" placeholder = "ISBN"><br>
+                  <label for = "book-publisher" class = "book-form-content" >Publisher : </label>
+                  <input class = "book-form-content" name = "publisher" id = "book-publisher" placeholder="publisher"><br>
+                  <button class = "book-form-content" type="submit">Submit</button>
+               </form>
+            </div>
+         </div>
+
+         <% if(result.title !== ""){%>
+            <div class = "result">
+               <form method="POST" action = "/form/add"> 
+                  <div class = "row h-100 p-3 justify-content-center align-items-center">
+                     <h1> Is this book what you are looking for? </h1>
+                  
+                     <div class = "col-xs-12 col-lg-3"> 
+                           <img src = "<%= result.cover %>" class = "mx-auto d-block">
+                     </div>
+                     <div class = "col-xs-0 col-lg-9">
+                           <div class = "p-3">
+                              <h2>
+                                 <%= result.title %> <small class="text-muted">By <%= result.author %></small></h2>
+                                 <p> <%= result.description %></p>
+                                 <p>ISBN : <%= result.ISBN %></p>
+                           </div>
+                     </div>
+                  </div>
+                  <button type = "submit"> Yes! </button>
+               </form>
+            </div>
+         <% } %>
+      </div>
       <%-include('partials/footer') %>
    </body>
 </html>
+

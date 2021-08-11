@@ -79,10 +79,19 @@ body{
 	 z-index: 999;
 }
  .slick-next {
-	 right: 100px;
-	 z-index: 999;
+	right: 100px;
+	z-index: 999;
 }
 
 .button-container{
   text-align: center;
+}
+
+#add-book-form{
+	padding: 10px;
+}
+
+#add-book-button{
+	float: right;
+	margin: 10px;
 }
