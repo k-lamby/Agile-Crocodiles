@@ -22,7 +22,7 @@ app.use((req, res, next) =>{
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '%)Wocjf6318',
+  password : '',
   database : 'bibliophile',
   multipleStatements: true
 });
