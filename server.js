@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
+const session = require("cookie-session");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const request = require("request");
@@ -13,7 +13,10 @@ const hostname = process.env.NODE_HOST;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser('secret'));
-app.use(session({cookie : {maxAge: null}}));
+app.use(session({
+  name: 'session',
+  keys: ['agile', 'crocodile'],
+  cookie : {maxAge: null}}));
 app.use((req, res, next) =>{
     res.locals.message = req.session.message;
     delete req.session.message;

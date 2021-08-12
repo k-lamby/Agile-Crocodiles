@@ -237,13 +237,19 @@ module.exports = (app) => {
     }
 
     app.post("/wishlist/remove", (req, res) => {
-        bookInfo.splice(bookInfo.findIndex((element) => element.title == req.body.title), 1); // remove book from the array
-        let query = ["DELETE FROM wishlist WHERE titleID = (SELECT ID FROM title WHERE name = '" + req.body.title+"')"];
-        connection.query(query.join(';'), (err, results) => {
-            console.log("A book is removed from the wishlist");
-            if (err) throw err;
+        if(bookInfo.length > 0)
+        {
+            bookInfo.splice(bookInfo.findIndex((element) => element.title == req.body.title), 1); // remove book from the array
+            let query = ["DELETE FROM wishlist WHERE titleID = (SELECT ID FROM title WHERE name = '" + req.body.title+"')"];
+            connection.query(query.join(';'), (err, results) => {
+                console.log("A book is removed from the wishlist");
+                if (err) throw err;
+                res.redirect("/wishlist");
+            })
+        }else{
             res.redirect("/wishlist");
-        })
+        }
+
     });
 
     app.post("/wishlist/oneliner", (req, res) => {
