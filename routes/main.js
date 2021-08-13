@@ -39,6 +39,7 @@ module.exports = (app) => {
                    oneliner[data.name] = onelineTempArray;
                }
             })
+            oneliner = JSON.stringify(oneliner);
             res.render("match.ejs", {title: "Match", bookInfo: results[0], matchingBookInfo : info, flag : "", oneliner: oneliner});
         })
     })
