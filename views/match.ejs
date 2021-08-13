@@ -56,7 +56,7 @@
             </div>
          </div>
       </div>
-      <% if(result.title !== "" && flag == "y"){%>
+      <% if(matchingBookInfo.title !== "" && flag == "y"){%>
       <div class = "modal justify-content-center align-items-center" role="dialog" style="display: block;" id="add-book-result">
          <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content bg-light">
@@ -70,12 +70,12 @@
                      </div>
                      <div class = "col-m-6 col-lg-9">
                            <div class = "p-3">
-                              <h2><%= result.title %> </h2>
-                              <small class="text-muted">By <%= result.author %></small>
-                                 <p> <%= result.description %></p>
-                                 <p>ISBN : <%= result.ISBN %></p>
-                                 <p>Adult Content : <%= result.adultContent %></p>
-                                 <p>Genre : <%= result.genre %></p>
+                              <h2><%= matchingBookInfo.title %> </h2>
+                              <small class="text-muted">By <%= matchingBookInfo.author %></small>
+                                 <p> <%= matchingBookInfo.description %></p>
+                                 <p>ISBN : <%= matchingBookInfo.ISBN %></p>
+                                 <p>Adult Content : <%= matchingBookInfo.adultContent %></p>
+                                 <p>Genre : <%= matchingBookInfo.genre %></p>
                            </div>
                      </div>
                   </div>

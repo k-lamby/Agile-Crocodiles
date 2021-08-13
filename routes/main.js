@@ -14,16 +14,20 @@ module.exports = (app) => {
             author : "",
             cover : "",
             ISBN : "",
-            description : ""
+            description : "",
+            adultContent : "",
+            genre : ""
         }
 
         let query = [];
         for (let genre of userSetting){
-            query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"');");
+            query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"')");
         }
+        query.push("SELECT title.name, oneliner.oneline FROM title LEFT JOIN oneliner ON title.ID = oneliner.titleID");
+
         connection.query(query.join(";"), (err, results) =>{
             if (err) throw err;
-            res.render("match.ejs", {title: "Match", bookInfo: results, result: info, flag : ""});
+            res.render("match.ejs", {title: "Match", bookInfo: results[0], matchingBookInfo : info, flag : "", oneLiner: results[1]});
         })
     })
 
@@ -95,7 +99,7 @@ module.exports = (app) => {
             }
             connection.query(query.join(";"), (err, results) =>{
                 if (err) throw err;
-                res.render("match.ejs", {title: "Match", bookInfo: results, result: info, flag : flag});
+                res.render("match.ejs", {title: "Match", bookInfo: results, matchingBookInfo: info, flag : flag});
             })
         })
 
