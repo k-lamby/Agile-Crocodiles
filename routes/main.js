@@ -27,7 +27,19 @@ module.exports = (app) => {
 
         connection.query(query.join(";"), (err, results) =>{
             if (err) throw err;
-            res.render("match.ejs", {title: "Match", bookInfo: results[0], matchingBookInfo : info, flag : "", oneLiner: results[1]});
+            let oneliner = {};
+            Object(results[1]).forEach((data)=>{
+               if(oneliner.hasOwnProperty(data.name) == false){
+                    let onelineTempArray = []
+                    onelineTempArray.push(data.oneline)
+                    oneliner[data.name] = onelineTempArray;
+               }else{
+                   let onelineTempArray = oneliner[data.name];
+                   onelineTempArray.push(data.oneline);
+                   oneliner[data.name] = onelineTempArray;
+               }
+            })
+            res.render("match.ejs", {title: "Match", bookInfo: results[0], matchingBookInfo : info, flag : "", oneliner: oneliner});
         })
     })
 
