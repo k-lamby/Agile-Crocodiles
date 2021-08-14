@@ -8,6 +8,27 @@ module.exports = (app) => {
         res.render("index.ejs", {title: "Main"});
     })
 
+    app.get("/addbooks",(req, res) => {
+
+        let info = {
+            title : "",
+            author : "",
+            cover : "",
+            ISBN : "",
+            description : "",
+            adultContent : "",
+            genre : ""
+        }
+
+        req.session.message =  {
+            type: '',
+            intro: '',
+            message: ''
+            }
+
+        res.render("addbooks.ejs", {title: "Add Books", bookInfo: info, matchingBookInfo: info, flag : "i"});
+    })
+
     app.get("/match",(req, res) => {
         let info = {
             title : "",
@@ -18,6 +39,12 @@ module.exports = (app) => {
             adultContent : "",
             genre : ""
         }
+
+        req.session.message =  {
+            type: '',
+            intro: '',
+            message: ''
+            }
 
         let query = [];
         for (let genre of userSetting){
@@ -44,8 +71,9 @@ module.exports = (app) => {
         })
     })
 
-    app.post("/match/form", (req, res) =>{
-        let url = "https://www.googleapis.com/books/v1/volumes?q="+req.body.title+"+inauthor:"+req.body.author+"&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1";
+    app.post("/addbooks", (req, res) =>{
+
+        let url = encodeURI("https://www.googleapis.com/books/v1/volumes?q="+req.body.title+"+inauthor:"+req.body.author+"&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1");
         request(url, {json: true}, (err, response, body)=> {
 
             let info = {
@@ -107,18 +135,21 @@ module.exports = (app) => {
             }
 
             let query = [];
+
             for (let genre of userSetting){
                 query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"');");
             }
+
             connection.query(query.join(";"), (err, results) =>{
                 if (err) throw err;
-                res.render("match.ejs", {title: "Match", bookInfo: results, matchingBookInfo: info, flag : flag});
+                res.render("addbooks.ejs", {title: "Add Books", bookInfo: results, matchingBookInfo: info, flag : flag});
             })
+
         })
 
     })
 
-    app.post("/match/add", (req, res) => {
+    app.post("/addbooks/add", (req, res) => {
         let adultContent = false;
         if(req.body.adultContent != "NOT_MATURE")
         {
@@ -143,7 +174,7 @@ module.exports = (app) => {
                     intro: 'Fail!',
                     message: 'This book is already in the database.'
                 }
-                res.redirect("/match");
+                res.redirect("/addbooks");
             }
             else{
                 let query3 = "INSERT INTO cover (titleID, link) VALUES ( (SELECT ID FROM title WHERE name = '"+ req.body.title+ "'), '"+ req.body.link + "')";
@@ -154,7 +185,7 @@ module.exports = (app) => {
                     intro: 'Success!',
                     message: 'The book is successfully added to the database.'
                     }
-                    res.redirect("/match");
+                    res.redirect("/addbooks");
                 })
             }
         })

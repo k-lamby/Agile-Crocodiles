@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+   <%-include('partials/header') %>
+   <body>
+    <%-include('partials/navbar') %>
+    <div class="main container p-3">
+        <h1>Would you like to add a book to the database?</h1>
+        <% if (message) { %>
+            <div id="alert" class = "alert alert-<%= message.type %>">
+                <strong> <%= message.intro %></strong> <%= message.message %>
+            </div>
+        <% } %>
+        <form class="form-group" method ="POST" id = "add-book-form" action = "/addbooks">
+                <label for = "book-title" class = "book-form-content" >Title : </label>
+                <input class = "book-form-content form-control" name = "title" id = "book-title" placeholder="title"/> <br>
+                <label for = "book-author" class = "book-form-content" >Author : </label>
+                <input class = "book-form-content form-control" name = "author" id = "book-author" placeholder="author"/><br>
+                <label for = "book-ISBN" class = "book-form-content" >ISBN : </label>
+                <input class = "book-form-content form-control" name = "ISBN" id = "book-ISBN" placeholder = "ISBN"><br>
+                <label for = "book-publisher" class = "book-form-content" >Publisher : </label>
+                <input class = "book-form-content form-control" name = "publisher" id = "book-publisher" placeholder="publisher"><br>
+                <button class = "book-form-content btn btn-primary" type="submit">Submit</button>
+          </form>
+    </div>
+    <% if(matchingBookInfo.title !== "" && flag == "y"){%>
+        <div class = "modal-background" id="add-book-result">
+        <div class="modal justify-content-center align-items-center" style="display:block" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+               <div class="modal-content bg-light">
+                    <div class="bg-dark">
+                        <h5 class="text-white p-3">Is this book what you are looking for?</h5>
+                    </div>
+                    <form method="POST" action = "/addbooks/add"> 
+                    <div class = "row h-100 p-3 justify-content-center align-items-center">
+                        <div class = "col-m-6 col-lg-3"> 
+                                <img src = "<%= matchingBookInfo.cover %>" class = "mx-auto d-block">
+                        </div>
+                        <div class = "col-m-6 col-lg-9">
+                                <div class = "p-3">
+                                <h2><%= matchingBookInfo.title %> </h2>
+                                <small class="text-muted">By <%= matchingBookInfo.author %></small>
+                                    <p> <%= matchingBookInfo.description %></p>
+                                    <p>ISBN : <%= matchingBookInfo.ISBN %></p>
+                                    <p>Adult Content : <%= matchingBookInfo.adultContent %></p>
+                                    <p>Genre : <%= matchingBookInfo.genre %></p>
+                                </div>
+                        </div>
+                    </div>
+                    <input name = "cover" value = "<%= matchingBookInfo.cover %>" style = "display: none;">
+                    <input name = "author" value = "<%= matchingBookInfo.author %>" style = "display: none;">
+                    <input name = "ISBN" value = "<%= matchingBookInfo.ISBN %>" style = "display: none;">
+                    <input name = "title" value = "<%= matchingBookInfo.title %>" style = "display: none;">
+                    <input name = "genre" value = "<%= matchingBookInfo.genre %>" style = "display: none;">
+                    <input name = "adultContent" value = "<%= matchingBookInfo.adultContent %>" style = "display: none;">
+                    <div class = "add-book-button-container">
+                        <button type = "submit" class = "btn btn-success"> Yes </button>
+                        <button type = "button" class = "btn btn-danger" onclick ="removeModal();"> No </button>
+                    </div>
+                    </form>      
+                </div>
+            </div>
+         </div>
+        </div>
+    <% } %>
+        <% if(flag == "n"){%>
+        
+        <div class="modal-header bg-dark">
+            <h5 class="modal-title text-white">We couldn't find the book you were looking for. Please check if you provided all the details correctly</h5>
+        </div>
+        <div class = "add-book-button-container">
+            <button type = "button" class = "btn btn-info" onClick = "removeModal();"> Exit </button>
+        </div>
+        <% } %>
+    <%-include('partials/footer') %>
+</body>
+</html>

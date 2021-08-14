@@ -33,16 +33,16 @@ app.use((req, res, next) =>{
 const port = 5000;
 const hostname = "0.0.0.0";
 
-var connection = mysql.createConnection({
+var connection = mysql.createConnection({  
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database : 'bibliophile',
-  multipleStatements: true
+  database : 'bibliophile', 
+  multipleStatements: true 
 });
 
 connection.connect((err) => {
-    if (err) {
+    if (err) { 
       console.error("error connecting: " + err.stack);
       return;
     }

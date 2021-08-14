@@ -30,6 +30,8 @@ function modalpopup(title){
     
     }
 
+
+
     //below handles the tinder swipe animation
     function cardAnimation(){
         

@@ -5,14 +5,6 @@
    <body onload='cardAnimation();'>
       <%-include('partials/navbar') %>
       <div class ="main book-match">
-         <% if (message) { %>
-            <div id="alert" class = "alert alert-<%= message.type %>">
-                <strong> <%= message.intro %></strong> <%= message.message %>
-            </div>
-        <% } %>
-         <div class = "link">
-            <button id = "add-book-button" class = "btn btn-info" onclick = "formPopup();"> Add books </button>
-         </div>
          <div class="bookcard-container">
             <% bookInfo.forEach(function(data){ %>
                <div class="bookcard">
@@ -31,84 +23,10 @@
             <% }) %>
          </div>
          <div class="button-container">
-            <button type="button" class="btn btn-danger" id="nope">NOPE</button>
-            <button type="button" class="btn btn-success" id="love">LIKE</button>
+            <button type="button" class="btn btn-danger p-3" id="nope"><h1><i class ="fa fa-thumbs-down"></i></h2></button>
+            <button type="button" class="btn btn-success p-3" id="love"><h1><i class ="fa fa-thumbs-up"></i></h1></button>
          </div>
       </div>
-
-      <div class = "modal justify-content-center align-items-center" role="dialog" style="display: none;" id="add-book">
-         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content bg-light">
-               <div class="modal-header bg-dark">
-                  <h5 class="modal-title text-white">Would you like to add a book?</h5>
-               </div>
-               <form method ="POST" id = "add-book-form" action = "/match/form">
-                  <label for = "book-title" class = "book-form-content" >Title : </label>
-                  <input class = "book-form-content" name = "title" id = "book-title" placeholder="title"/> <br>
-                  <label for = "book-author" class = "book-form-content" >Author : </label>
-                  <input class = "book-form-content" name = "author" id = "book-author" placeholder="author"/><br>
-                  <label for = "book-ISBN" class = "book-form-content" >ISBN : </label>
-                  <input class = "book-form-content" name = "ISBN" id = "book-ISBN" placeholder = "ISBN"><br>
-                  <label for = "book-publisher" class = "book-form-content" >Publisher : </label>
-                  <input class = "book-form-content" name = "publisher" id = "book-publisher" placeholder="publisher"><br>
-                  <button class = "book-form-content" type="submit">Submit</button>
-               </form>
-            </div>
-         </div>
-      </div>
-      <% if(matchingBookInfo.title !== "" && flag == "y"){%>
-      <div class = "modal justify-content-center align-items-center" role="dialog" style="display: block;" id="add-book-result">
-         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content bg-light">
-               <div class="modal-header bg-dark">
-                  <h5 class="modal-title text-white">Is this book what you are looking for?</h5>
-               </div>
-               <form method="POST" action = "/match/add"> 
-                  <div class = "row h-100 p-3 justify-content-center align-items-center">
-                     <div class = "col-m-6 col-lg-3"> 
-                           <img src = "<%= result.cover %>" class = "mx-auto d-block">
-                     </div>
-                     <div class = "col-m-6 col-lg-9">
-                           <div class = "p-3">
-                              <h2><%= matchingBookInfo.title %> </h2>
-                              <small class="text-muted">By <%= matchingBookInfo.author %></small>
-                                 <p> <%= matchingBookInfo.description %></p>
-                                 <p>ISBN : <%= matchingBookInfo.ISBN %></p>
-                                 <p>Adult Content : <%= matchingBookInfo.adultContent %></p>
-                                 <p>Genre : <%= matchingBookInfo.genre %></p>
-                           </div>
-                     </div>
-                  </div>
-                  <input name = "cover" value = "<%= result.cover %>" style = "display: none;">
-                  <input name = "author" value = "<%= result.author %>" style = "display: none;">
-                  <input name = "ISBN" value = "<%= result.ISBN %>" style = "display: none;">
-                  <input name = "title" value = "<%= result.title %>" style = "display: none;">
-                  <input name = "genre" value = "<%= result.genre %>" style = "display: none;">
-                  <input name = "adultContent" value = "<%= result.adultContent %>" style = "display: none;">
-
-                  <div class = "add-book-button-container">
-                     <button type = "submit" class = "btn btn-success"> Yes </button>
-                     <button type = "button" class = "btn btn-danger" onClick = "removeModal();"> No </button>
-                  </div>
-               </form>
-            </div>
-         </div>
-      </div>
-      <% } %>
-      <% if(flag == "n"){%>
-         <div class = "modal justify-content-center align-items-center" role="dialog" style="display: block;" id="add-book-result">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-               <div class="modal-content bg-light">
-                  <div class="modal-header bg-dark">
-                     <h5 class="modal-title text-white">We couldn't find the book you were looking for. Please check if you provided all the details correctly</h5>
-                  </div>
-                  <div class = "add-book-button-container">
-                     <button type = "button" class = "btn btn-info" onClick = "removeModal();"> Exit </button>
-                  </div>
-               </div>
-            </div>
-         </div>
-      <% } %>
       <%-include('partials/footer') %>
    </body>
 </html>
