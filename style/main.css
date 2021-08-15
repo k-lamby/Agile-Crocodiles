@@ -22,8 +22,8 @@ footer{
 }
 
  .bookcard-container {
-	 width: 100%;
-   min-height: 600px;
+   width: 100%;
+   height: 70vh;
    display: flex;
    justify-content: center;
    padding-top:40px;
@@ -31,8 +31,8 @@ footer{
 
 .bookcard {
   display: inline-block;
-  width: 100vw;
-  max-width: 300px;
+  width: 70vw;
+  height: 70vh;
   padding-bottom: 40px;
   border-radius: 8px;
   overflow: hidden;
@@ -46,11 +46,11 @@ footer{
 
  .bookcard-contents {
 	 background: white;
-	 width: 300px;
-	 height: 500px;
+	 width: 100%;
+	 height: 60vh;
 	 display: inline-block;
 	 margin: auto;
-   	 padding-top: 20px;
+   	 padding: 20px;
 	 border-radius: 19px;
 	 position: relative;
 	 text-align: center;
@@ -60,17 +60,17 @@ footer{
 
  .bookcard-image {
 	 position: relative;
-	 height: 230px;
-	 margin-bottom: 35px;
-	 border-top-left-radius: 14px;
-	 border-top-right-radius: 14px;
 	 overflow:hidden;
+	 height:100%;
 }
 
  .bookcard-image img {
-	 height: 260px;
-	 width: 200px;
-	 max-height:400px;
+	 width:100%;
+	 height:100%;
+	 background-color: lightgray;
+	 border: 5px solid #555;
+	 object-fit:contain;
+	 
 }
 
  .clearfix:after {
@@ -119,4 +119,5 @@ footer{
 	background-color: rgb(0,0,0); /* Fallback color */
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   }
+
 

@@ -56,6 +56,14 @@ function modalpopup(title){
         //identify all newcards that haven't yet been removed from stack
         var newCards = document.querySelectorAll('.bookcard:not(.removed)');
 
+        if (newCards.length>0) {
+          //use this update the like card form, so we can push liked books to the db
+            var topCardTitle = newCards[0].id;
+            var formInput = document.getElementById("match-top-book");
+            formInput.value = topCardTitle;
+          };
+        
+
         //for each newcard transform to create the stacked effect
         newCards.forEach(function (card, index) {
           card.style.zIndex = allCards.length - index;//z-index is the stack order
@@ -73,7 +81,19 @@ function modalpopup(title){
      var cards = document.querySelectorAll('.bookcard:not(.removed)');
      var moveOutWidth = document.body.clientWidth * 1.5;
 
+     console.log(cards.length);
+
+     if (cards.length == 1){
+        var bookContainer = document.querySelector('.bookcard-container');
+        bookContainer.innerHTML = "<div><h1> No more books to recommend!</h1><h3>Refresh your browser to start again.</h3></div>";
+     }
+
      if (!cards.length) return false;
+
+     //use this update the like card form, so we can push liked books to the db
+     var topCardTitle = cards[0].id;
+     var formInput = document.getElementById("match-top-book");
+     formInput.value = topCardTitle;
 
      var card = cards[0];
 

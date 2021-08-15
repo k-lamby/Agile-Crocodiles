@@ -1,4 +1,3 @@
-  
 <!DOCTYPE html>
 <html lang="en">
    <%-include('partials/header') %>
@@ -7,25 +6,30 @@
       <div class ="main book-match">
          <div class="bookcard-container">
             <% bookInfo.forEach(function(data){ %>
-               <div class="bookcard">
-                  <div class="bookcard-contents">
-                     <div class="bookcard-image">
-                        <img src="<%= data.link %>" alt="wizard" />
+               <div class="bookcard" id="<%= data.name %>">
+                  <div class="bookcard-contents row d-flex">
+                     <div class="bookcard-image col-xs-12 col-lg-4">
+                        <img src="<%= data.link %>"/>
                      </div>
-                     <div class="bookcard-title p-3">
-                        <h4><%= data.name %></h4>
-                     </div>
-                     <div class="bookcard-author p-3">
-                        <h6>By <%= data.author %></h6>
+                     <div class="bookcard-info col-lg-8 d-none d-md-inline">
+                        <div class="bookcard-title p-3">
+                           <h1><%= data.name %></h1>
+                        </div>
+                        <div class="bookcard-author p-3">
+                           <h2>By <%= data.author %></h2>
+                        </div>
                      </div>
                   </div>
                </div>
             <% }) %>
          </div>
-         <div class="button-container">
-            <button type="button" class="btn btn-danger p-3" id="nope"><h1><i class ="fa fa-thumbs-down"></i></h2></button>
-            <button type="button" class="btn btn-success p-3" id="love"><h1><i class ="fa fa-thumbs-up"></i></h1></button>
-         </div>
+         <form method = "POST" action = "/match">
+            <div class="button-container">
+               <input id="match-top-book" name = "current-book" style="display:none">
+               <button type="button" class="btn btn-danger p-3" id="nope"><h1><i class ="fa fa-thumbs-down"></i></h2></button>
+               <button type="button" class="btn btn-success p-3" id="love"><h1><i class ="fa fa-thumbs-up"></i></h1></button>
+            </div>
+         </form>
       </div>
       <%-include('partials/footer') %>
    </body>
