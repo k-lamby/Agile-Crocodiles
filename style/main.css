@@ -17,6 +17,10 @@ body{
 	flex-direction:column;
 }
 
+.navbar-collapse.collapse.in {
+	display: block!important;
+  }
+
 footer{
 	margin-top:auto;
 }
