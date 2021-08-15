@@ -81,8 +81,6 @@ function modalpopup(title){
      var cards = document.querySelectorAll('.bookcard:not(.removed)');
      var moveOutWidth = document.body.clientWidth * 1.5;
 
-     console.log(cards.length);
-
      if (cards.length == 1){
         var bookContainer = document.querySelector('.bookcard-container');
         bookContainer.innerHTML = "<div><h1> No more books to recommend!</h1><h3>Refresh your browser to start again.</h3></div>";
@@ -105,9 +103,9 @@ function modalpopup(title){
        card.style.transform = 'translate(-' + moveOutWidth + 'px, -100px) rotate(30deg)';
      }
 
+     document.getElementById("matchmaking-form").submit;
      initCards();
 
-     event.preventDefault();
    };
  }
 
