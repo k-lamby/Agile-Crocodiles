@@ -73,7 +73,7 @@ module.exports = (app) => {
 
     app.post("/addbooks", (req, res) =>{
 
-        let url = encodeURI("https://www.googleapis.com/books/v1/volumes?q="+req.body.title+"+inauthor:"+req.body.author+"&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1");
+        let url = encodeURI("https://www.googleapis.com/books/v1/volumes?q="+req.body.title+"+inauthor:"+req.body.author+"&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1&langRestrict=en");
         request(url, {json: true}, (err, response, body)=> {
 
             let info = {

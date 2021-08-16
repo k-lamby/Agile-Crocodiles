@@ -1,4 +1,4 @@
-// require('dotenv').config(); // to use environment variable, instead of hard-coded password.
+require('dotenv').config(); // to use environment variable, instead of hard-coded password.
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const session = require("cookie-session");
@@ -6,16 +6,16 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const request = require("request");
 const app = express();
-// const port = process.env.PORT; 
-// const hostname = process.env.NODE_HOST;
+const port = process.env.PORT; 
+const hostname = process.env.NODE_HOST;
 
-// var connection = mysql.createConnection({ // to use environment variable, instead of hard-coded password.
-//   host     : process.env.DB_HOST,
-//   user     : process.env.DB_USER,
-//   password : process.env.DB_PASSWORD,
-//   database : process.env.DB_NAME,
-//   multipleStatements: true
-// });
+var connection = mysql.createConnection({ // to use environment variable, instead of hard-coded password.
+  host     : process.env.DB_HOST,
+  user     : process.env.DB_USER,
+  password : process.env.DB_PASSWORD,
+  database : process.env.DB_NAME,
+  multipleStatements: true
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -30,16 +30,16 @@ app.use((req, res, next) =>{
     next();
 })
 
-const port = 5000;
-const hostname = "0.0.0.0";
+// const port = 5000;
+// const hostname = "0.0.0.0";
 
-var connection = mysql.createConnection({  
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'bibliophile', 
-  multipleStatements: true 
-});
+// var connection = mysql.createConnection({  
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : '',
+//   database : 'bibliophile', 
+//   multipleStatements: true 
+// });
 
 connection.connect((err) => {
     if (err) { 
