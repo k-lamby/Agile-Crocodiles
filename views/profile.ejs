@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <%-include('partials/header') %>
-    <body>
+    <body onload="checkSwitch();">
         <%-include('partials/navbar') %>
         <div class ="container p-3">
         <% if (message) { %>
@@ -13,10 +13,17 @@
         <h3 class = "text-muted pt-3">Genre Preferences</h3>
         <form method = "POST" action = "/profile/genre">
             <% savedGenre.forEach((data)=> { %>
+                <% if(userSetting.includes(data.name)){ %>
+                <div class="form-check form-switch">
+                    <input class="form-check-input big-switch" type="checkbox" name = "genre" value ="<%= data.name %>" checked>
+                    <label class="form-check-label" for="flexSwitchCheckDefault"><%= data.name %></label>
+                </div>
+                <% } else { %>
                 <div class="form-check form-switch">
                     <input class="form-check-input big-switch" type="checkbox" name = "genre" value ="<%= data.name %>">
                     <label class="form-check-label" for="flexSwitchCheckDefault"><%= data.name %></label>
                 </div>
+                <% } %>
             <% }) %>
             <button class = "book-form-content btn btn-primary" type="submit">Update</button>
         </form>

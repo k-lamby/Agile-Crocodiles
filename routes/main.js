@@ -20,12 +20,6 @@ module.exports = (app) => {
             genre : ""
         }
 
-        req.session.message =  {
-            type: '',
-            intro: '',
-            message: ''
-            }
-
         res.render("addbooks.ejs", {title: "Add Books", bookInfo: info, matchingBookInfo: info, flag : "i"});
     })
 
@@ -39,12 +33,6 @@ module.exports = (app) => {
             adultContent : "",
             genre : ""
         }
-
-        req.session.message =  {
-            type: '',
-            intro: '',
-            message: ''
-            }
 
         let query = [];
         for (let genre of userSetting){
@@ -197,10 +185,10 @@ module.exports = (app) => {
         connection.query(query, (err, results)=> {
             if(err)
             {
-                res.render("profile.ejs", {title: "Profile", savedGenre : []});
+                res.render("profile.ejs", {title: "Profile", savedGenre : [], userSetting : []});
             }
             else{
-                res.render("profile.ejs", {title: "Profile", savedGenre : results});
+                res.render("profile.ejs", {title: "Profile", savedGenre : results, userSetting : userSetting});
             }
         })
     })
@@ -234,6 +222,10 @@ module.exports = (app) => {
         if(typeof input == "string") // Only one genre was selected by the user. 
         {
             return input + ";"
+        }
+        else if (typeof input == "undefined")
+        {
+            return ""
         }
         else{
             let preference = ""
