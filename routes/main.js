@@ -67,6 +67,7 @@ module.exports = (app) => {
                }
             })
             oneliner = JSON.stringify(oneliner);
+
             res.render("match.ejs", {title: "Match", bookInfo: results[0], matchingBookInfo : info, flag : "", oneliner: oneliner});
         })
     })
@@ -322,6 +323,10 @@ module.exports = (app) => {
 
     app.post("/login", (req, res)=> {
         console.log("A post request was made to /login");
+    })
+
+    app.post("/match/submit", (req, res)=> {
+        console.log("Do some stuff");
     })
 
     app.post("/register/new-user", (req, res) => {
