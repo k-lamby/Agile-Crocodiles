@@ -193,10 +193,19 @@ module.exports = (app) => {
     })
 
     app.get("/profile",(req, res) => {
-        res.render("profile.ejs", {title: "Profile", genreList : userSetting});
+        let query = "SELECT * FROM genre";
+        connection.query(query, (err, results)=> {
+            if(err)
+            {
+                res.render("profile.ejs", {title: "Profile", savedGenre : []});
+            }
+            else{
+                res.render("profile.ejs", {title: "Profile", savedGenre : results});
+            }
+        })
     })
 
-    app.post("/profile", (req, res) => {
+    app.post("/profile/genre", (req, res) => {
         let preference = savePreference(req.body.genre);
         let query = ["INSERT INTO userProfile (userIDNum, preference) VALUES (9, " + preference + ")"];
         connection.query(query.join(";"), (err, results) => {
@@ -209,11 +218,13 @@ module.exports = (app) => {
                     queryUsersetting();
                 });
             }
-            else {
-                res.render("profile.ejs", {title: "Profile"}); // INSERT is successful.
-            }
         })
-        res.render("profile.ejs", {title: "Profile"}); // UPDATE is successful.
+        req.session.message =  {
+            type: 'success',
+            intro: 'Success!',
+            message: 'The user genre preference has been saved.'
+        }
+        res.redirect("/profile"); // either UPDATE or INSERT is successful.
     });
 
     //savePreference function processes the user's genre choices by concatenating them in a one single string by semi-colon

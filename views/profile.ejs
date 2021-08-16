@@ -4,33 +4,24 @@
     <body>
         <%-include('partials/navbar') %>
         <div class ="container p-3">
+        <% if (message) { %>
+            <div id="alert" class = "alert alert-<%= message.type %>">
+                <strong> <%= message.intro %></strong> <%= message.message %>
+            </div>
+        <% } %>
         <h1>User1 - Profile Settings</h1>
         <h3 class = "text-muted pt-3">Genre Preferences</h3>
         <form method = "POST" action = "/profile/genre">
-            <div class="form-check form-switch">
-                <input class="form-check-input big-switch" type="checkbox" id="genre-science-fiction">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Science Fiction</label>
-            </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input big-switch" type="checkbox" id="genere-romance">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Romance</label>
-            </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input big-switch" type="checkbox" id="genre-history">
-                <label class="form-check-label" for="flexSwitchCheckDefault">History</label>
-            </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input big-switch" type="checkbox" id="genre-performing-arts">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Performing Arts</label>
-            </div>
-            <div class="form-check form-switch pb-3">
-                <input class="form-check-input big-switch" type="checkbox" id="genre-fiction">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Fiction</label>
-            </div>
+            <% savedGenre.forEach((data)=> { %>
+                <div class="form-check form-switch">
+                    <input class="form-check-input big-switch" type="checkbox" name = "genre" value ="<%= data.name %>">
+                    <label class="form-check-label" for="flexSwitchCheckDefault"><%= data.name %></label>
+                </div>
+            <% }) %>
             <button class = "book-form-content btn btn-primary" type="submit">Update</button>
         </form>
         <h3 class = "text-muted pt-3">Profile Settings</h3>
-        <form method = "POST" action = "/profile/settings">
+        <form>
             <label for = "book-title" class = "book-form-content" >Username : </label>
             <input class = "book-form-content form-control" name = "title" id = "book-title" placeholder="username"/> <br>
             <label for="exampleInputPassword1">Password:</label>

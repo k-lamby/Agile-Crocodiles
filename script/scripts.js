@@ -111,7 +111,7 @@ function modalpopup(title){
 
 function formPopup() {
     // Get the modal
-    var modal = document.getElementById("add-book");
+    let modal = document.getElementById("add-book");
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = (event) => {
       if(modal.style.display == "none")
@@ -127,6 +127,6 @@ function formPopup() {
 }
 
 function removeModal() {
-  var modal = document.getElementById("add-book-result");
+  let modal = document.getElementById("add-book-result");
   modal.style.display = "none";
 }
