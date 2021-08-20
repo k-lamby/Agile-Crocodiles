@@ -61,8 +61,7 @@ module.exports = (app) => {
     })
 
     app.post("/addbooks", (req, res) =>{
-
-        let url = encodeURI("https://www.googleapis.com/books/v1/volumes?q="+req.body.title+"+inauthor:"+req.body.author+"&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1&langRestrict=en");
+        let url = encodeURI(formURL(req.body));
         request(url, {json: true}, (err, response, body)=> {
 
             let info = {
@@ -126,7 +125,7 @@ module.exports = (app) => {
             let query = [];
 
             for (let genre of userSetting){
-                query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"');");
+                query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"')");
             }
 
             connection.query(query.join(";"), (err, results) =>{
@@ -243,7 +242,26 @@ module.exports = (app) => {
         res.render("wishlist.ejs", {title: "Wishlist", bookInfo : clean});
     })
 
-    function formatData (queryResults)
+    function formURL(obj){
+        let begin = "https://www.googleapis.com/books/v1/volumes?q=";
+        let end = "&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1&langRestrict=en";
+
+        if(obj.title !== ""){
+            begin = begin + obj.title;
+        }
+        if(obj.author !== ""){
+            begin = begin + "+inauthor:" + obj.author;
+        }
+        if(obj.ISBN !== ""){
+            begin = begin + "+isbn:" + obj.ISBN;
+        }
+        if(obj.publisher !== ""){
+            begin = begin + "+inpublisher:" + obj.publisher;
+        }
+
+        return begin + end;
+    }
+    function formatData(queryResults)
     {
         let json = {
             title : queryResults[0][0].name,
