@@ -46,6 +46,13 @@ flush privileges;
 exit;
 ```
 
+### Source the environmental variables from the dev file
+The server receives it's configuration settings from the local environment. This is so that when the repository is deployed to Heroku, it is able to run seamlessly. When we are doing local development, the proper environmental variables must be set. In order to do so we must `source` the environmental variables from `dev-env-vars.sh`. To do so, run:
+
+```
+source dev-env-vars.sh
+```
+
 ### Run developmental server
 Now run the developmental server
 
