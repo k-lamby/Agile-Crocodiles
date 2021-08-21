@@ -73,45 +73,45 @@ module.exports = (app) => {
                 adultContent : "",
                 genre : ""
             }
-            
+
             if(err) {
                 flag = "n"
             }
             else{
                 if(typeof body.items === "undefined"){
-                    flag = "n" 
-                } 
+                    flag = "n"
+                }
                 else{
                     info.title = body.items[0].volumeInfo.title;
                     info.author = body.items[0].volumeInfo.authors;
                     info.publisher = body.items[0].volumeInfo.publisher;
-    
+
                     try{
                         info.adultContent = body.items[0].volumeInfo.maturityRating;
                     }catch{
                         info.adultContent = ""
                     }
-                    
+
                     try{
                         info.description = body.items[0].volumeInfo.description.substring(0, 200) + "...";
                     }catch{
                         info.description = "";
                     }
-                    
+
                     try{
                         info.genre = body.items[0].volumeInfo.categories[0];
                     }
                     catch{
                         info.genre = "unknown";
                     }
-    
+
                     try{
                         info.ISBN = body.items[0].volumeInfo.industryIdentifiers[1].identifier;
                     }
                     catch{
                         info.ISBN = "";
                     }
-    
+
                     try{
                         info.cover = body.items[0].volumeInfo.imageLinks.thumbnail;
                     }
@@ -119,7 +119,7 @@ module.exports = (app) => {
                         info.cover = "";
                     }
                     flag = "y"
-                }  
+                }
             }
 
             let query = [];
@@ -153,7 +153,7 @@ module.exports = (app) => {
         });
 
         let query2 = ["INSERT INTO title (name, authorID, ISBN, adultContent, genreID) VALUES ('" + req.body.title + "',"
-                        + "(SELECT ID FROM author WHERE author = '"+ req.body.author+"')" + ",'" 
+                        + "(SELECT ID FROM author WHERE author = '"+ req.body.author+"')" + ",'"
                         + req.body.ISBN + "'," + adultContent +", (SELECT ID FROM genre WHERE name = '" + req.body.genre + "'))"];
         connection.query(query2.join(";"), (err, results) => {
             if(err) {
@@ -215,10 +215,10 @@ module.exports = (app) => {
     });
 
     //savePreference function processes the user's genre choices by concatenating them in a one single string by semi-colon
-    // and save it to the DB. 
-    function savePreference(input) 
+    // and save it to the DB.
+    function savePreference(input)
     {
-        if(typeof input == "string") // Only one genre was selected by the user. 
+        if(typeof input == "string") // Only one genre was selected by the user.
         {
             return input + ";"
         }
@@ -268,7 +268,7 @@ module.exports = (app) => {
             author : queryResults[1][0].name,
             cover : queryResults[2][0].link
         };
-        bookInfo.push(json);      
+        bookInfo.push(json);
     }
 
     function queryWishlist(){
@@ -279,10 +279,10 @@ module.exports = (app) => {
             if(err) reject(err);
             for(let i = 0; i < results.length; i++)
                     {
-                        let innerQuery = ["SELECT name FROM title WHERE ID = " + results[i].titleID, 
+                        let innerQuery = ["SELECT name FROM title WHERE ID = " + results[i].titleID,
                                         "SELECT author FROM author WHERE ID = (SELECT authorID FROM title where ID = " + results[i].titleID + ")",
                                         "SELECT link FROM cover WHERE titleID = " + results[i].titleID];
-                        
+
                         connection.query(innerQuery.join(';'), (err, qResults) => {
                             if (err) reject(err);
                             else
@@ -294,10 +294,11 @@ module.exports = (app) => {
     }
 
     function queryUsersetting(){
-        let query = ["SELECT preference FROM userProfile WHERE userIDNum = 9"];
+        let query = ["SELECT preference FROM userprofile WHERE userIDNum = 9"];
         return new Promise((resolve, reject) => {
             connection.query(query.join(";"), (err, results) => {
                 if(err) reject(err);
+                console.log(results);
                 genreList = results[0].preference.split(";"); //tokenize the user preference string by ";"
                 genreList.pop(); // remove the last element in the array which is an empty string.
                 resolve(userSetting = genreList);
@@ -327,7 +328,7 @@ module.exports = (app) => {
         let query = ["INSERT INTO oneliner VALUES ((SELECT ID FROM title WHERE name = '" + req.body.modalTitle + "'), 9 ,'" + req.body.oneliner+ "');"];
         connection.query(query.join(';'), (err, results) => {
             console.log("One liner is added to the DB.");
-            if (err) throw err;   
+            if (err) throw err;
 
             req.session.message = {
                 type: 'success',
@@ -355,7 +356,7 @@ module.exports = (app) => {
         {
             let query = "INSERT INTO credential (userID, password) VALUES ('" + req.body.registerUsername + "','" + req.body.registerPassword + "');"
             connection.query(query, (err, results) =>{
-                if(err) // Since USER ID is set to "UNIQUE", an exception will be thrown if the same userID already exists. 
+                if(err) // Since USER ID is set to "UNIQUE", an exception will be thrown if the same userID already exists.
                 {
                     req.session.message = {
                         type: 'danger',
@@ -363,7 +364,7 @@ module.exports = (app) => {
                         message: 'The same username is already being used by another user. Please choose another username.'
                     }
                     res.redirect('/register');
-                } 
+                }
                 // if there is no duplicate USER ID in the database
                 else{
                     req.session.message = {
