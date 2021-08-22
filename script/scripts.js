@@ -103,8 +103,11 @@ function modalpopup(title){
        card.style.transform = 'translate(-' + moveOutWidth + 'px, -100px) rotate(30deg)';
      }
 
-     document.getElementById("matchmaking-form").submit;
+     
      initCards();
+     document.getElementById('matchmaking-form').submit();
+     //event.preventDefault();
+     
 
    };
  }

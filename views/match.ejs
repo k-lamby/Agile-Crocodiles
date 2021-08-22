@@ -23,13 +23,15 @@
                </div>
             <% }) %>
          </div>
-         <form id = "matchmaking-form" method = "POST" action = "/match/submit">
+        
+         <form id = "matchmaking-form" method ="POST" action ="/match/submit" class = "p-3">
             <div class="button-container">
-               <input id="match-top-book" name = "current-book" style="display:none">
                <button type="button" class="btn btn-danger p-3" id="nope"><h1><i class ="fa fa-thumbs-down"></i></h2></button>
-               <button type="button" class="btn btn-success p-3" id="love"><h1><i class ="fa fa-thumbs-up"></i></h1></button>
+                  <button type="button" class="btn btn-success p-3" id="love"><h1><i class ="fa fa-thumbs-up"></i></h1></button>
+               <input id="match-top-book" name ="currentbook" value ="" style ="display:none">
             </div>
          </form>
+
       </div>
       <%-include('partials/footer') %>
    </body>

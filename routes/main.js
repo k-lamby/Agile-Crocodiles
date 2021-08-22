@@ -342,7 +342,7 @@ module.exports = (app) => {
     })
 
     app.post("/match/submit", (req, res)=> {
-        console.log("Do some stuff");
+        console.log(req.body.currentbook);
     })
 
     app.post("/register/new-user", (req, res) => {
