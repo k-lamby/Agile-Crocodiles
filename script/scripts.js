@@ -105,7 +105,7 @@ function modalpopup(title){
 
      
      initCards();
-     document.getElementById('matchmaking-form').submit();
+     if (love) document.getElementById('matchmaking-form').submit();
      //event.preventDefault();
      
 
