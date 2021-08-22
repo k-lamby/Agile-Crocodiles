@@ -24,26 +24,18 @@ module.exports = (app) => {
     })
 
     app.get("/match",(req, res) => {
-        let info = {
-            title : "",
-            author : "",
-            cover : "",
-            ISBN : "",
-            description : "",
-            adultContent : "",
-            genre : ""
-        }
-
         let query = [];
         for (let genre of userSetting){
             query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"')");
         }
+    
         query.push("SELECT title.name, oneliner.oneline FROM title LEFT JOIN oneliner ON title.ID = oneliner.titleID");
 
         connection.query(query.join(";"), (err, results) =>{
             if (err) throw err;
             let oneliner = {};
-            Object(results[1]).forEach((data)=>{
+
+            Object(results.slice(-1).flat()).forEach((data)=>{ // the oneliner is the very last element in the main query result array.
                if(oneliner.hasOwnProperty(data.name) == false){
                     let onelineTempArray = []
                     onelineTempArray.push(data.oneline)
@@ -55,8 +47,8 @@ module.exports = (app) => {
                }
             })
             oneliner = JSON.stringify(oneliner);
-
-            res.render("match.ejs", {title: "Match", bookInfo: results[0], matchingBookInfo : info, flag : "", oneliner: oneliner});
+            bookResult = results.slice(0, -1).flat(); // flatten several arrays of queried books into one array.
+            res.render("match.ejs", {title: "Match", bookInfo: bookResult, flag : "", oneliner: oneliner});
         })
     })
 
@@ -298,7 +290,6 @@ module.exports = (app) => {
         return new Promise((resolve, reject) => {
             connection.query(query.join(";"), (err, results) => {
                 if(err) reject(err);
-                console.log(results);
                 genreList = results[0].preference.split(";"); //tokenize the user preference string by ";"
                 genreList.pop(); // remove the last element in the array which is an empty string.
                 resolve(userSetting = genreList);
