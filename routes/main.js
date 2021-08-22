@@ -1,7 +1,7 @@
 module.exports = (app) => {
     let bookInfo = []; // To store json objects for books in the wish list.
     let userSetting = [];
-    queryUsersetting();
+    queryUsersetting(); // Get the user genre preference beforehands.
     queryWishlist(); // Get the wish list beforehands.
 
     app.get("/",(req, res) => {
@@ -52,7 +52,7 @@ module.exports = (app) => {
         })
     })
 
-    app.post("/addbooks", (req, res) =>{
+    app.post("/addbooks/search", (req, res) =>{
         let url = encodeURI(formURL(req.body));
         request(url, {json: true}, (err, response, body)=> {
 
@@ -146,7 +146,10 @@ module.exports = (app) => {
 
         let query2 = ["INSERT INTO title (name, authorID, ISBN, adultContent, genreID) VALUES ('" + req.body.title + "',"
                         + "(SELECT ID FROM author WHERE author = '"+ req.body.author+"')" + ",'"
-                        + req.body.ISBN + "'," + adultContent +", (SELECT ID FROM genre WHERE name = '" + req.body.genre + "'))"];
+                        + req.body.ISBN + "'," + adultContent +", (SELECT ID FROM genre WHERE name = '" + req.body.genre + "'))", 
+                      "INSERT INTO cover (titleID, link) VALUES ((SELECT ID FROM title WHERE name = '" + req.body.title +"'), '"
+                      + req.body.cover+"')"
+                    ];
         connection.query(query2.join(";"), (err, results) => {
             if(err) {
                 req.session.message = {
