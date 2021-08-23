@@ -4,10 +4,13 @@ module.exports = (app) => {
     queryUsersetting(); // Get the user genre preference beforehands.
     queryWishlist(); // Get the wish list beforehands.
 
+// ================================= functions for index.ejs ================================= 
+
     app.get("/",(req, res) => {
         res.render("index.ejs", {title: "Main"});
     })
 
+// ================================= functions for addbooks.ejs ==============================
     app.get("/addbooks",(req, res) => {
 
         let info = {
@@ -21,35 +24,6 @@ module.exports = (app) => {
         }
 
         res.render("addbooks.ejs", {title: "Add Books", bookInfo: info, matchingBookInfo: info, flag : "i"});
-    })
-
-    app.get("/match",(req, res) => {
-        let query = [];
-        for (let genre of userSetting){
-            query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"')");
-        }
-    
-        query.push("SELECT title.name, oneliner.oneline FROM title LEFT JOIN oneliner ON title.ID = oneliner.titleID");
-
-        connection.query(query.join(";"), (err, results) =>{
-            if (err) throw err;
-            let oneliner = {};
-
-            Object(results.slice(-1).flat()).forEach((data)=>{ // the oneliner is the very last element in the main query result array.
-               if(oneliner.hasOwnProperty(data.name) == false){
-                    let onelineTempArray = []
-                    onelineTempArray.push(data.oneline)
-                    oneliner[data.name] = onelineTempArray;
-               }else{
-                   let onelineTempArray = oneliner[data.name];
-                   onelineTempArray.push(data.oneline);
-                   oneliner[data.name] = onelineTempArray;
-               }
-            })
-            oneliner = JSON.stringify(oneliner);
-            bookResult = results.slice(0, -1).flat(); // flatten several arrays of queried books into one array.
-            res.render("match.ejs", {title: "Match", bookInfo: bookResult, flag : "", oneliner: oneliner});
-        })
     })
 
     app.post("/addbooks/search", (req, res) =>{
@@ -144,11 +118,11 @@ module.exports = (app) => {
             console.log("This genre is already in the database.");
         });
 
-        let query2 = ["INSERT INTO title (name, authorID, ISBN, adultContent, genreID) VALUES ('" + req.body.title + "',"
-                        + "(SELECT ID FROM author WHERE author = '"+ req.body.author+"')" + ",'"
-                        + req.body.ISBN + "'," + adultContent +", (SELECT ID FROM genre WHERE name = '" + req.body.genre + "'))", 
-                      "INSERT INTO cover (titleID, link) VALUES ((SELECT ID FROM title WHERE name = '" + req.body.title +"'), '"
-                      + req.body.cover+"')"
+        let query2 = ['INSERT INTO title (name, authorID, ISBN, adultContent, genreID) VALUES ("' + req.body.title + '",'
+                        + '(SELECT ID FROM author WHERE author = "'+ req.body.author+ '")' + ',"'
+                        + req.body.ISBN + '",' + adultContent + ', (SELECT ID FROM genre WHERE name = "' + req.body.genre + '"))', 
+                      'INSERT INTO cover (titleID, link) VALUES ((SELECT ID FROM title WHERE name = "' + req.body.title +'"), "'
+                      + req.body.cover+'")'
                     ];
         connection.query(query2.join(";"), (err, results) => {
             if(err) {
@@ -160,20 +134,58 @@ module.exports = (app) => {
                 res.redirect("/addbooks");
             }
             else{
-                let query3 = "INSERT INTO cover (titleID, link) VALUES ( (SELECT ID FROM title WHERE name = '"+ req.body.title+ "'), '"+ req.body.link + "')";
-                connection.query(query3, (err, results) => {
-                    console.log("A new book is added to the database.")
-                    req.session.message =  {
-                    type: 'success',
-                    intro: 'Success!',
-                    message: 'The book is successfully added to the database.'
-                    }
-                    res.redirect("/addbooks");
-                })
-            }
+                console.log("A new book is added to the database.")
+                req.session.message =  {
+                type: 'success',
+                intro: 'Success!',
+                message: 'The book is successfully added to the database.'
+                }
+                res.redirect("/addbooks");
+                }
+            })
+    })
+// ================================= functions for match.ejs ================================== 
+    app.get("/match",(req, res) => {
+        let query = [];
+        for (let genre of userSetting){
+            query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"')");
+        }
+    
+        query.push("SELECT title.name, oneliner.oneline FROM title LEFT JOIN oneliner ON title.ID = oneliner.titleID");
+
+        connection.query(query.join(";"), (err, results) =>{
+            if (err) throw err;
+            let oneliner = {};
+
+            Object(results.slice(-1).flat()).forEach((data)=>{ // the oneliner is the very last element in the main query result array.
+               if(oneliner.hasOwnProperty(data.name) == false){
+                    let onelineTempArray = []
+                    onelineTempArray.push(data.oneline)
+                    oneliner[data.name] = onelineTempArray;
+               }else{
+                   let onelineTempArray = oneliner[data.name];
+                   onelineTempArray.push(data.oneline);
+                   oneliner[data.name] = onelineTempArray;
+               }
+            })
+            oneliner = JSON.stringify(oneliner);
+            bookResult = results.slice(0, -1).flat(); // flatten several arrays of queried books into one array.
+            res.render("match.ejs", {title: "Match", bookInfo: bookResult, flag : "", oneliner: oneliner});
         })
     })
 
+    app.post("/match/submit", (req, res)=> {
+        console.log(req.body);
+        let query = 'INSERT INTO wishlist VALUES (9, (SELECT ID FROM title WHERE name = "' + req.body.currentbook +'"))';
+        connection.query(query, (err) => {
+            if (err) throw err;
+            console.log("A book is added to the wish list.");
+            queryWishlist();
+            // res.redirect("/match");
+        })
+    })
+
+// ================================= functions for profile.ejs ================================= 
     app.get("/profile",(req, res) => {
         let query = "SELECT * FROM genre";
         connection.query(query, (err, results)=> {
@@ -209,103 +221,18 @@ module.exports = (app) => {
         res.redirect("/profile"); // either UPDATE or INSERT is successful.
     });
 
-    //savePreference function processes the user's genre choices by concatenating them in a one single string by semi-colon
-    // and save it to the DB.
-    function savePreference(input)
-    {
-        if(typeof input == "string") // Only one genre was selected by the user.
-        {
-            return input + ";"
-        }
-        else if (typeof input == "undefined")
-        {
-            return ""
-        }
-        else{
-            let preference = ""
-            for(let i = 0; i < input.length; i++)
-            {
-                preference = preference + input[i]+";"
-            }
-            return preference
-        }
-    }
-
+// ================================= functions for wishlist.ejs ================================= 
     app.get("/wishlist", (req, res) => {
         var clean = bookInfo.filter((arr, index, self) =>
         index === self.findIndex((t) => (t.title === arr.title && t.cover === arr.cover))); // remove duplicate json from bookInfo
         res.render("wishlist.ejs", {title: "Wishlist", bookInfo : clean});
     })
 
-    function formURL(obj){
-        let begin = "https://www.googleapis.com/books/v1/volumes?q=";
-        let end = "&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1&langRestrict=en";
-
-        if(obj.title !== ""){
-            begin = begin + obj.title;
-        }
-        if(obj.author !== ""){
-            begin = begin + "+inauthor:" + obj.author;
-        }
-        if(obj.ISBN !== ""){
-            begin = begin + "+isbn:" + obj.ISBN;
-        }
-        if(obj.publisher !== ""){
-            begin = begin + "+inpublisher:" + obj.publisher;
-        }
-
-        return begin + end;
-    }
-    function formatData(queryResults)
-    {
-        let json = {
-            title : queryResults[0][0].name,
-            author : queryResults[1][0].name,
-            cover : queryResults[2][0].link
-        };
-        bookInfo.push(json);
-    }
-
-    function queryWishlist(){
-        let id = "user1";
-        let query = ["SELECT * FROM wishlist WHERE userIDNum = (SELECT ID FROM credential WHERE userID ='" + id +"')"];
-        return new Promise((resolve, reject) => {
-            connection.query(query.join(';'), (err, results) =>{
-            if(err) reject(err);
-            for(let i = 0; i < results.length; i++)
-                    {
-                        let innerQuery = ["SELECT name FROM title WHERE ID = " + results[i].titleID,
-                                        "SELECT author FROM author WHERE ID = (SELECT authorID FROM title where ID = " + results[i].titleID + ")",
-                                        "SELECT link FROM cover WHERE titleID = " + results[i].titleID];
-
-                        connection.query(innerQuery.join(';'), (err, qResults) => {
-                            if (err) reject(err);
-                            else
-                                resolve(formatData(qResults));
-                        });
-                    }
-            })
-        })
-    }
-
-    function queryUsersetting(){
-        let query = ["SELECT preference FROM userprofile WHERE userIDNum = 9"];
-        return new Promise((resolve, reject) => {
-            connection.query(query.join(";"), (err, results) => {
-                if(err) reject(err);
-                genreList = results[0].preference.split(";"); //tokenize the user preference string by ";"
-                genreList.pop(); // remove the last element in the array which is an empty string.
-                resolve(userSetting = genreList);
-            });
-        })
-
-    }
-
     app.post("/wishlist/remove", (req, res) => {
         if(bookInfo.length > 0)
         {
             bookInfo.splice(bookInfo.findIndex((element) => element.title == req.body.title), 1); // remove book from the array
-            let query = ["DELETE FROM wishlist WHERE titleID = (SELECT ID FROM title WHERE name = '" + req.body.title+"')"];
+            let query = ['DELETE FROM wishlist WHERE titleID = (SELECT ID FROM title WHERE name = "' + req.body.title+'")'];
             connection.query(query.join(';'), (err, results) => {
                 console.log("A book is removed from the wishlist");
                 if (err) throw err;
@@ -333,16 +260,13 @@ module.exports = (app) => {
         })
     });
 
+// ================================= functions for register.ejs ================================= 
     app.get("/register",(req, res) => {
         res.render("register.ejs", {title: "Registration"})
     })
 
     app.post("/login", (req, res)=> {
         console.log("A post request was made to /login");
-    })
-
-    app.post("/match/submit", (req, res)=> {
-        console.log(req.body.currentbook);
     })
 
     app.post("/register/new-user", (req, res) => {
@@ -380,4 +304,99 @@ module.exports = (app) => {
         }
         console.log("A post request was made to /register/new-user");
     })
+
+
+//=============================== miscellaneous functions ===============================
+
+//savePreference function processes the user's genre choices by concatenating them in a one single string by semi-colon
+// and save it to the DB.
+    function savePreference(input)
+    {
+        if(typeof input == "string") // Only one genre was selected by the user.
+        {
+            return input + ";"
+        }
+        else if (typeof input == "undefined")
+        {
+            return ""
+        }
+        else{
+            let preference = ""
+            for(let i = 0; i < input.length; i++)
+            {
+                preference = preference + input[i]+";"
+            }
+            return preference
+        }
+    }
+
+//formURL function generates a Google API url with the book information that the user provided. It checks if the user provided
+//all or some information about a book and creates a url.   
+    function formURL(obj){
+        let begin = "https://www.googleapis.com/books/v1/volumes?q=";
+        let end = "&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1&langRestrict=en";
+
+        if(obj.title !== ""){
+            begin = begin + obj.title;
+        }
+        if(obj.author !== ""){
+            begin = begin + "+inauthor:" + obj.author;
+        }
+        if(obj.ISBN !== ""){
+            begin = begin + "+isbn:" + obj.ISBN;
+        }
+        if(obj.publisher !== ""){
+            begin = begin + "+inpublisher:" + obj.publisher;
+        }
+
+        return begin + end;
+    }
+
+//formatData function creates a JS object which stores certain information about a book and push it to the array for the wish list.
+    function formatData(queryResults)
+    {
+        let obj = {
+            title : queryResults[0][0].name,
+            author : queryResults[1][0].author,
+            cover : queryResults[2][0].link
+        };
+        bookInfo.push(obj);
+    }
+
+//queryWishlist function returns promise which queries every book stored in 'wishlist' table in DB.
+    function queryWishlist(){
+        let id = "user1";
+        let query = ["SELECT * FROM wishlist WHERE userIDNum = (SELECT ID FROM credential WHERE userID ='" + id +"')"];
+        return new Promise((resolve, reject) => {
+            connection.query(query.join(';'), (err, results) =>{
+            if(err) reject(err);
+            for(let i = 0; i < results.length; i++)
+                    {
+                        let innerQuery = ["SELECT name FROM title WHERE ID = " + results[i].titleID,
+                                        "SELECT author FROM author WHERE ID = (SELECT authorID FROM title where ID = " + results[i].titleID + ")",
+                                        "SELECT link FROM cover WHERE titleID = " + results[i].titleID];
+
+                        connection.query(innerQuery.join(';'), (err, qResults) => {
+                            if (err) reject(err);
+                            else
+                                resolve(formatData(qResults));
+                        });
+                    }
+            })
+        })
+    }
+
+    //queryUsersetting function returns promise which queries the user genre preference stored in 'userProfile' table in DB, which
+    // is concatenated into a string by ";", and tokenize it to make it useful.
+    function queryUsersetting(){
+        let query = ["SELECT preference FROM userprofile WHERE userIDNum = 9"];
+        return new Promise((resolve, reject) => {
+            connection.query(query.join(";"), (err, results) => {
+                if(err) reject(err);
+                genreList = results[0].preference.split(";"); //tokenize the user preference string by ";"
+                genreList.pop(); // remove the last element in the array which is an empty string.
+                resolve(userSetting = genreList);
+            });
+        })
+    }
 }
