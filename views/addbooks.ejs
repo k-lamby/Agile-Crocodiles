@@ -23,46 +23,40 @@
                 <button class = "book-form-content btn btn-primary" type="submit">Submit</button>
           </form>
     </div>
-    <% if(matchingBookInfo.title !== "" && flag == "y"){%>
-        <div class = "modal-background" id="add-book-result">
-        <div class="modal justify-content-center align-items-center" style="display:block" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-               <div class="modal-content bg-light">
-                    <div class="bg-dark">
-                        <h5 class="text-white p-3">Is this book what you are looking for?</h5>
-                    </div>
-                    <form method="POST" action = "/addbooks/add"> 
-                    <div class = "row h-100 p-3 justify-content-center align-items-center">
-                        <div class = "col-m-6 col-lg-3"> 
-                                <img src = "<%= matchingBookInfo.cover %>" class = "mx-auto d-block">
-                        </div>
-                        <div class = "col-m-6 col-lg-9">
-                                <div class = "p-3">
-                                <h2><%= matchingBookInfo.title %> </h2>
-                                <small class="text-muted">By <%= matchingBookInfo.author %></small>
-                                    <p> <%= matchingBookInfo.description %></p>
-                                    <p>ISBN : <%= matchingBookInfo.ISBN %></p>
-                                    <p>Adult Content : <%= matchingBookInfo.adultContent %></p>
-                                    <p>Genre : <%= matchingBookInfo.genre %></p>
-                                </div>
-                        </div>
-                    </div>
-                    <input name = "cover" value = "<%= matchingBookInfo.cover %>" style = "display: none;">
-                    <input name = "author" value = "<%= matchingBookInfo.author %>" style = "display: none;">
-                    <input name = "ISBN" value = "<%= matchingBookInfo.ISBN %>" style = "display: none;">
-                    <input name = "title" value = "<%= matchingBookInfo.title %>" style = "display: none;">
-                    <input name = "genre" value = "<%= matchingBookInfo.genre %>" style = "display: none;">
-                    <input name = "adultContent" value = "<%= matchingBookInfo.adultContent %>" style = "display: none;">
-                    <div class = "add-book-button-container">
-                        <button type = "submit" class = "btn btn-success"> Yes </button>
-                        <button type = "button" class = "btn btn-danger" onclick ="removeModal();"> No </button>
-                    </div>
-                    </form>      
-                </div>
-            </div>
-         </div>
-        </div>
-    <% } %>
+    <% if(flag == "y"){%>
+
+        <table class="table">
+            <thead class="thead-dark"> 
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Description</th>
+                <th scope="col">Genre</th>
+                <th scope="col">ISBN</th>
+                <th scope="col">Add</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% matchingBookInfo.forEach(function(data){ %>
+                    <tr>
+                        <form method="POST" action = "/addbooks/add"> 
+                        <td><%= data.cover %><input name = "cover" value = "<%= data.cover %>" style = "display: none;"></td>
+                        <td><%= data.title %><input name = "title" value = "<%= data.title %>" style = "display: none;"></td>
+                        <td><%= data.author %><input name = "author" value = "<%= data.author %>" style = "display: none;"></td>
+                        <td><%= data.description %><input name = "description" value = "<%= data.description %>" style = "display: none;"></td>
+                        <td><%= data.genre %><input name = "genre" value = "<%= data.genre %>" style = "display: none;"></td>
+                        <td><%= data.ISBN %><input name = "ISBN" value = "<%= data.ISBN %>" style = "display: none;"></td>
+                        <td><input type="submit" class="btn btn-outline-success mb-2">Add Book</button></td>
+                        </form>
+                      </tr>
+                 <% }) %> 
+              
+            </tbody>
+          </table>
+          <% } %>
+
+       
         <% if(flag == "n"){%>
         
         <div class="modal-header bg-dark">

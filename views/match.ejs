@@ -8,15 +8,23 @@
             <% bookInfo.forEach(function(data){ %>
                <div class="bookcard" id="<%= data.name %>">
                   <div class="bookcard-contents row d-flex">
-                     <div class="bookcard-image col-xs-12 col-lg-4">
+                     <div class="bookcard-image col-lg-4">
                         <img src="<%= data.link %>"/>
                      </div>
-                     <div class="bookcard-info col-lg-8 d-none d-md-inline">
+                     <div class="bookcard-info col-lg-8 d-none d-lg-block">
                         <div class="bookcard-title p-3">
-                           <h1><%= data.name %></h1>
+                           <h2><%= data.name %></h1>
                         </div>
-                        <div class="bookcard-author p-3">
-                           <h2>By <%= data.author %></h2>
+                        <div class="bookcard-author">
+                           <h3 class = "text-muted">By <%= data.author %></h2>
+                        </div>
+                        <div class="bookcard-author text-left">
+                           <h4 class = "text-left">Reviewers One Liners:</h3>
+                              <% oneliner.forEach(function(oneliner){ %>
+                                 <%if (oneliner.name = data.name && oneliner.oneline != null) { %>
+                                    <p>Butt</p>
+                                 <% } %>
+                              <% }) %> 
                         </div>
                      </div>
                   </div>

@@ -61,6 +61,10 @@ footer{
 	 z-index: 9999;
 }
 
+.bookcard-contents h4 {
+	text-align: left;
+}
+
  .bookcard-image {
 	 position: relative;
 	 overflow:hidden;
