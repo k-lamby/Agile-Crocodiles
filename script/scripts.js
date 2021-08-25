@@ -91,7 +91,7 @@ function modalpopup(title){
      //use this update the like card form, so we can push liked books to the db
      var topCardTitle = cards[0].id;
      var formInput = document.getElementById("match-top-book");
-     formInput.value = topCardTitle;
+     
 
      var card = cards[0];
 
@@ -104,8 +104,9 @@ function modalpopup(title){
      }
 
      
-     initCards();
+     
      if (love) document.getElementById('matchmaking-form').submit();
+     initCards();
      //event.preventDefault();
      
 

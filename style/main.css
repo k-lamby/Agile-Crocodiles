@@ -61,7 +61,7 @@ footer{
 	 z-index: 9999;
 }
 
-.bookcard-contents h4 {
+.bookcard-contents h4, .bookcard-contents p{
 	text-align: left;
 }
 

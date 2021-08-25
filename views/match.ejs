@@ -22,7 +22,7 @@
                            <h4 class = "text-left">Reviewers One Liners:</h3>
                               <% oneliner.forEach(function(oneliner){ %>
                                  <%if (oneliner.name = data.name && oneliner.oneline != null) { %>
-                                    <p>Butt</p>
+                                    <p class = "text-left"><%= oneliner.oneline %></p>
                                  <% } %>
                               <% }) %> 
                         </div>
@@ -36,7 +36,7 @@
             <div class="button-container">
                <button type="button" class="btn btn-danger p-3" id="nope"><h1><i class ="fa fa-thumbs-down"></i></h2></button>
                   <button type="button" class="btn btn-success p-3" id="love"><h1><i class ="fa fa-thumbs-up"></i></h1></button>
-               <input id="match-top-book" name ="currentbook" value ="" style ="display:none">
+               <input id="match-top-book" name ="currentbook" value ="" style="display:none">
             </div>
          </form>
 

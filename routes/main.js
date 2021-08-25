@@ -17,7 +17,7 @@ module.exports = (app) => {
             title : "",
             author : "",
             cover : "",
-            ISBN : "", 
+            ISBN : "",
             description : "",
             adultContent : "",
             genre : ""
@@ -85,20 +85,20 @@ module.exports = (app) => {
                         info.cover = "";
                     }
                     flag = "y"
-                } 
+                }  
             }
 
             let query = []; 
-
-            for (let genre of userSetting){  
+ 
+            for (let genre of userSetting){
                 query.push("SELECT title.name, author.author, cover.link FROM author RIGHT JOIN title ON author.ID = title.authorID LEFT JOIN cover ON title.ID = cover.titleID WHERE genreID = (SELECT ID FROM genre WHERE name = '"+genre+"')");
             }
 
-            connection.query(query.join(";"), (err, results) =>{
-                if (err) throw err;
+            connection.query(query.join(";"), (err, results) =>{ 
+                if (err) throw err; 
                 res.render("addbooks.ejs", {title: "Add Books", bookInfo: results, matchingBookInfo: info, flag : flag});
             })
- 
+
         })
 
     })
@@ -122,7 +122,7 @@ module.exports = (app) => {
                         + '(SELECT ID FROM author WHERE author = "'+ req.body.author+ '")' + ',"'
                         + req.body.ISBN + '",' + adultContent + ', (SELECT ID FROM genre WHERE name = "' + req.body.genre + '"))', 
                       'INSERT INTO cover (titleID, link) VALUES ((SELECT ID FROM title WHERE name = "' + req.body.title +'"), "'
-                      + req.body.cover +'")'
+                      + req.body.cover+'")'
                     ];
         connection.query(query2.join(";"), (err, results) => {
             if(err) {
@@ -156,8 +156,8 @@ module.exports = (app) => {
         connection.query(query.join(";"), (err, results) =>{
             if (err) throw err;
 
-            let oneliner = results;
- 
+            let oneliner = results.slice(-1).flat(); 
+
             bookResult = results.slice(0, -1).flat(); // flatten several arrays of queried books into one array.
 
             res.render("match.ejs", {title: "Match", bookInfo: bookResult, flag : "", oneliner: oneliner});
@@ -165,7 +165,7 @@ module.exports = (app) => {
     })
 
     app.post("/match/submit", (req, res)=> {
-        console.log(req.body);
+
         let query = 'INSERT INTO wishlist VALUES (9, (SELECT ID FROM title WHERE name = "' + req.body.currentbook +'"))';
         connection.query(query, (err) => {
             if (err) throw err;
