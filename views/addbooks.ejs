@@ -24,10 +24,10 @@
           </form>
     </div>
     <% if(flag == "y"){%>
-
+<div class = "container">
         <table class="table">
             <thead class="thead-dark"> 
-              <tr>
+              <tr class ="table-dark">
                 <th scope="col"></th>
                 <th scope="col">Title</th>
                 <th scope="col">Author</th>
@@ -47,13 +47,14 @@
                         <td><%= data.description %><input name = "description" value = "<%= data.description %>" style = "display: none;"></td>
                         <td><%= data.genre %><input name = "genre" value = "<%= data.genre %>" style = "display: none;"></td>
                         <td><%= data.ISBN %><input name = "ISBN" value = "<%= data.ISBN %>" style = "display: none;"></td>
-                        <td><input type="submit" class="btn btn-outline-success mb-2">Add Book</button></td>
+                        <td><input type="submit" class="btn btn-outline-success mb-2" value="Add Book"></td>
                         </form>
                       </tr>
                  <% }) %> 
               
             </tbody>
           </table>
+        </div>
           <% } %>
 
        
