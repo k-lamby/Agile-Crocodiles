@@ -29,65 +29,70 @@ module.exports = (app) => {
     app.post("/addbooks/search", (req, res) =>{
         let url = encodeURI(formURL(req.body));
         request(url, {json: true}, (err, response, body)=> {
-
-            let info = {
-                title : "",
-                author : "",
-                cover : "",
-                ISBN : "",
-                description : "",
-                adultContent : "",
-                genre : ""
-            }
-
+            let apiResults = [];
+            let flag;
             if(err) {
                 flag = "n"
             }
             else{
-                if(typeof body.items === "undefined"){
-                    flag = "n"
+                for(let i = 0; i < body.items.length; i++){
+
+                    let info = {
+                        title : "",
+                        author : "",
+                        cover : "",
+                        ISBN : "",
+                        description : "",
+                        adultContent : "",
+                        genre : ""
+                    }
+
+                    if(typeof body.items === "undefined"){
+                            flag = "n"
+                    }
+                    else
+                    {
+                        info.title = body.items[i].volumeInfo.title;
+                        info.author = body.items[i].volumeInfo.authors;
+                        info.publisher = body.items[i].volumeInfo.publisher;
+    
+                        try{
+                            info.adultContent = body.items[i].volumeInfo.maturityRating;
+                        }catch{
+                            info.adultContent = ""
+                        }
+    
+                        try{
+                            info.description = body.items[i].volumeInfo.description.substring(0, 200) + "...";
+                        }catch{
+                            info.description = "";
+                        }
+    
+                        try{
+                            info.genre = body.items[i].volumeInfo.categories[0];
+                        }
+                        catch{
+                            info.genre = "unknown";
+                        }
+    
+                        try{
+                            info.ISBN = body.items[i].volumeInfo.industryIdentifiers[1].identifier;
+                        }
+                        catch{
+                            info.ISBN = "";
+                        }
+    
+                        try{
+                            info.cover = body.items[i].volumeInfo.imageLinks.thumbnail;
+                        }
+                        catch{
+                            info.cover = "";
+                        }
+                        flag = "y"
+                    }  
+                    apiResults.push(info);
                 }
-                else{
-                    info.title = body.items[0].volumeInfo.title;
-                    info.author = body.items[0].volumeInfo.authors;
-                    info.publisher = body.items[0].volumeInfo.publisher;
-
-                    try{
-                        info.adultContent = body.items[0].volumeInfo.maturityRating;
-                    }catch{
-                        info.adultContent = ""
-                    }
-
-                    try{
-                        info.description = body.items[0].volumeInfo.description.substring(0, 200) + "...";
-                    }catch{
-                        info.description = "";
-                    }
-
-                    try{
-                        info.genre = body.items[0].volumeInfo.categories[0];
-                    }
-                    catch{
-                        info.genre = "unknown";
-                    }
-
-                    try{
-                        info.ISBN = body.items[0].volumeInfo.industryIdentifiers[1].identifier;
-                    }
-                    catch{
-                        info.ISBN = "";
-                    }
-
-                    try{
-                        info.cover = body.items[0].volumeInfo.imageLinks.thumbnail;
-                    }
-                    catch{
-                        info.cover = "";
-                    }
-                    flag = "y"
-                }  
             }
-
             let query = []; 
  
             for (let genre of userSetting){
@@ -96,7 +101,7 @@ module.exports = (app) => {
 
             connection.query(query.join(";"), (err, results) =>{ 
                 if (err) throw err; 
-                res.render("addbooks.ejs", {title: "Add Books", bookInfo: results, matchingBookInfo: info, flag : flag});
+                res.render("addbooks.ejs", {title: "Add Books", bookInfo: results, matchingBookInfo: apiResults, flag : flag});
             })
 
         })
@@ -324,7 +329,7 @@ module.exports = (app) => {
 //all or some information about a book and creates a url.   
     function formURL(obj){
         let begin = "https://www.googleapis.com/books/v1/volumes?q=";
-        let end = "&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=1&langRestrict=en";
+        let end = "&key=AIzaSyDUce_hTpbDcVBlm5h7TgExyjZ-httMvNk&maxResults=20&langRestrict=en";
 
         if(obj.title !== ""){
             begin = begin + obj.title;

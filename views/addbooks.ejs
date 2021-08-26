@@ -41,7 +41,7 @@
                 <% matchingBookInfo.forEach(function(data){ %>
                     <tr>
                         <form method="POST" action = "/addbooks/add"> 
-                        <td><%= data.cover %><input name = "cover" value = "<%= data.cover %>" style = "display: none;"></td>
+                        <td><img src ="<%= data.cover %>"/><input name = "cover" value = "<%= data.cover %>" style = "display: none;"></td>
                         <td><%= data.title %><input name = "title" value = "<%= data.title %>" style = "display: none;"></td>
                         <td><%= data.author %><input name = "author" value = "<%= data.author %>" style = "display: none;"></td>
                         <td><%= data.description %><input name = "description" value = "<%= data.description %>" style = "display: none;"></td>
