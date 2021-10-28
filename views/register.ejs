@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%-include('partials/header') %>
+    <body>
+        <%-include('partials/navbar') %>
+        <main class="container">
+            <% if (message) { %>
+                <div id="alert" class = "alert alert-<%= message.type %>">
+                    <strong> <%= message.intro %></strong> <%= message.message %>
+                </div>
+            <% } %>
+            <div class="row justify-content-center mt-3">
+                <div class="col-4 align-self-end">
+                  <%-include('partials/login-widget') %>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-4 align-self-end">
+                <hr>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-4 align-self-end mb-3">
+                  <%-include('partials/register-widget') %>
+                </div>
+            </div>
+        </main>
+        <%-include('partials/footer') %>
+    </body>
+</html>

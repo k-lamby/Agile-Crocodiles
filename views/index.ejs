@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+   <%-include('partials/header') %> 
+   <body>
+      <%-include('partials/navbar') %> 
+      <main class="container p-3">
+         <div class="row">
+            <div class="col-md-9">
+               <div class="row">
+                  <h1>Welcome to Books with Benefits</h1>
+                  <p> Books with Benefits is a dating site <em>for books</em>. You will encounter many books that like to get to know you better. Maybe the attraction is mutual? </p>
+                  <p>
+                     <a href="/register">Register</a> now to create your personal wishlist and to save <a href="/profile">genre preference</a>.
+                  </p>
+               </div>
+               <div class="row">
+                  <img data-src="holder.js/100px250" class="img-fluid img-thumbnail" alt="100%x250" style="height: 250px; width: 100%; display: block;" src="/assets/aung-soe-min-f6UX-It1N7g-unsplash.jpg" data-holder-rendered="true">
+               </div>
+               <div class="row">
+                  <div class="col">
+                     <h3>
+                     Matchmake with Books! </h2>
+                     <p> On the <a href="/match">Matchmaking page</a> you will meet books. Some might be familiar to you, some might be new. Give the books a thumbs up to save them in your personal <a href="./wishlist">Wishlist</a> or give them a thumbs down if you are not interested. </p>
+                  </div>
+                  <div class="col">
+                     <h3>
+                     Add Books to the Library! </h2>
+                     <p> Do you know a book that deserves more love? <a href="/addbooks">Add</a> it to the database. The book features are automatically added. You only need to know the author or the title. </p>
+                  </div>
+                  <div class="col">
+                     <h3>Be a Wingman!</h3>
+                     <p> If you want to be the wingman for your favorite book, teach it a good one-liner, which it will use to flirt with other users! </p>
+                     <p> “Four teenagers want to find a body. They succeed.” (Stephen King, The Body) </p>
+                     <p> “Giant sandworms protect the galaxy’s most valuable resource.” (Frank Herbert, Dune) </p>
+                     <p> “In the beginning, Earth explodes. But don’t worry: dolphins survive.” (Douglas Adams, The Hitchhiker’s Guide to the Galaxy) </p>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-3"><%-include('partials/register-widget') %> </div>
+         </div>
+      </main>
+      <%-include('partials/footer') %> 
+   </body>
+</html>

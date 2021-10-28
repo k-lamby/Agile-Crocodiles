@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%-include('partials/header') %>
+    <body onload="checkSwitch();">
+        <%-include('partials/navbar') %>
+        <div class ="container p-3">
+        <% if (message) { %>
+            <div id="alert" class = "alert alert-<%= message.type %>">
+                <strong> <%= message.intro %></strong> <%= message.message %>
+            </div>
+        <% } %>
+        <h1>User1 - Profile Settings</h1>
+        <h3 class = "text-muted pt-3">Genre Preferences</h3>
+        <p>Which genres would you like to see in the recommendations? Confirm your selection with the 'Update' button.</p>
+        <form method = "POST" action = "/profile/genre" class="form-check-inline">
+            <% savedGenre.forEach((data)=> { %>
+                <% if(userSetting.includes(data.name)){ %>
+                <div class="form-check form-switch form-check-inline pb-2">
+                    <input class="form-check-input big-switch" type="checkbox" name = "genre" value ="<%= data.name %>" checked>
+                    <label class="form-check-label" for="flexSwitchCheckDefault"><%= data.name %></label>
+                </div>
+                <% } else { %>
+                <div class="form-check form-switch form-check-inline">
+                    <input class="form-check-input big-switch" type="checkbox" name = "genre" value ="<%= data.name %>">
+                    <label class="form-check-label" for="flexSwitchCheckDefault"><%= data.name %></label>
+                </div>
+                <% } %>
+            <% }) %>
+            <div><button class = "book-form-content btn btn-primary mt-3" type="submit">Update</button></div>
+            
+        </form>
+    </div>
+        <%-include('partials/footer') %>
+    </body>
+</html>

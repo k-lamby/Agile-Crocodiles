@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+   <%-include('partials/header') %>
+   <body>
+    <%-include('partials/navbar') %>
+    <div class="main container p-3">
+      <% if (message) { %>
+        <div id="alert" class = "alert alert-<%= message.type %>">
+            <strong> <%= message.intro %></strong> <%= message.message %>
+        </div>
+      <% } %>
+        <h1>Would you like to add a book to the database?</h1>
+        <p>The books you add to the database will be recommended to other users. Please don't register books that might be inappropriate offensive to other users.</p>
+        <div class="row justify-content-center">
+          <form class="form-group col-6 align-self-end" method ="POST" id = "add-book-form" action = "/addbooks/search">
+            <label for = "book-title" class = "book-form-content" >Title : </label>
+            <input class = "book-form-content form-control" name = "title" id = "book-title" placeholder="title"/> <br>
+            <label for = "book-author" class = "book-form-content" >Author : </label>
+            <input class = "book-form-content form-control" name = "author" id = "book-author" placeholder="author"/><br>
+            <label for = "book-ISBN" class = "book-form-content" >ISBN : </label>
+            <input class = "book-form-content form-control" name = "ISBN" id = "book-ISBN" placeholder = "ISBN"><br>
+            <label for = "book-publisher" class = "book-form-content" >Publisher : </label>
+            <input class = "book-form-content form-control" name = "publisher" id = "book-publisher" placeholder="publisher"><br>
+            <button class = "book-form-content btn btn-primary" type="submit">Submit</button>
+          </form>
+        </div>
+
+    </div>
+    <% if(flag == "y"){%>
+<div class = "container">
+        <table class="table">
+            <thead class="thead-dark"> 
+              <tr class ="table-dark">
+                <th scope="col"></th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Description</th>
+                <th scope="col">Genre</th>
+                <th scope="col">ISBN</th>
+                <th scope="col">Add</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% matchingBookInfo.forEach(function(data){ %>
+                    <tr>
+                        <form method="POST" action = "/addbooks/add"> 
+                        <td><img src ="<%= data.cover %>"/><input name = "cover" value = "<%= data.cover %>" style = "display: none;"></td>
+                        <td><%= data.title %><input name = "title" value = "<%= data.title %>" style = "display: none;"></td>
+                        <td><%= data.author %><input name = "author" value = "<%= data.author %>" style = "display: none;"></td>
+                        <td><%= data.description %><input name = "description" value = "<%= data.description %>" style = "display: none;"></td>
+                        <td><%= data.genre %><input name = "genre" value = "<%= data.genre %>" style = "display: none;"></td>
+                        <td><%= data.ISBN %><input name = "ISBN" value = "<%= data.ISBN %>" style = "display: none;"></td>
+                        <td><input type="submit" class="btn btn-success mb-2" value="Add Book"></td>
+                        </form>
+                      </tr>
+                 <% }) %> 
+              
+            </tbody>
+          </table>
+        </div>
+          <% } %>
+    <%-include('partials/footer') %>
+</body>
+</html>

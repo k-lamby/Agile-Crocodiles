@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+   <%-include('partials/header') %>
+   <body onload='cardAnimation();'>
+      <%-include('partials/navbar') %>
+      <div class ="main book-match">
+         <div class="bookcard-container">
+            <% if(bookInfo.length == 0){%>
+               <div>
+                  <h1>There are no books to recommend!</h1>
+                  <p>Check your genre preferences <a href='/profile' class='link-info'>here</a></p>
+               </div>
+            <% } %>
+            <% bookInfo.forEach(function(data){ %>
+            <div class="bookcard" id="<%= data.name %>">
+               <div class="bookcard-contents row d-flex border border-dark box-shadow ">
+                  <div class="bookcard-image col-lg-4">
+                     <img src="<%= data.link %>"/>
+                  </div>
+                  <div class="bookcard-info col-lg-8 d-none d-lg-block">
+                     <div class="bookcard-title">
+                        <h4> <%= data.name %></h1>
+                     </div>
+                     <div class="bookcard-author text-center">
+                        <h4 class = "text-muted">By <%= data.author %></h2>
+                     </div>
+                     <div class="bookcard-author text-left pt-2">
+                        <h5 class = "text-left">Reviewers One Liners:</h3>
+                     <% oneliner.forEach(function(oneline){ %>
+                        <%if (oneline.name == data.name && oneline.oneline != null) {%>
+                           <p class = "text-left"><%= oneline.oneline %></p>
+                        <% } %>
+                     <% }) %> 
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <% }) %>
+         </div>
+         <form id = "matchmaking-form" method ="POST" action ="/match/submit" class = "p-3 text-center">
+            <p>Give the book a thumbs up to add it to your personal <a href='/wishlist' class='link-info'>wishlist</a>. Give it a thumbs down to ignore it</p>
+            <div class="button-container">
+               <button type="button" class="btn btn-danger rounded-circle" id="nope">
+                  <h1>
+                  <i class ="fa fa-thumbs-down"></i></h2>
+               </button>
+               <button type="button" class="btn btn-success rounded-circle" id="love">
+                  <h1><i class ="fa fa-thumbs-up"></i></h1>
+               </button>
+               <input id="match-top-book" name ="currentbook" value ="" style="display:none">
+            </div>
+         </form>
+      </div>
+      <%-include('partials/footer') %>
+   </body>
+</html>

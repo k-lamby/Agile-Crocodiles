@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+   <%-include('partials/header') %>
+   <body>
+      <%-include('partials/navbar') %>
+      <div class ="container p-3 background">
+         <% if (message) { %>
+         <div id="alert" class = "alert alert-<%= message.type %>">
+            <strong> <%= message.intro %></strong> <%= message.message %>
+         </div>
+         <% } %>
+         <h1>Wishlist - Books you have liked</h1>
+         <p>The wishlist shows the books that you want to get to know better. 
+               Go to <a href='/match' class='link-info'>get recommendations</a> to add more books to your wishlist.</p>
+         <!-- Start of the first book details -->
+         <% bookInfo.forEach(function(data){%>
+            <div class = "row p-3 justify-content-center align-items-center" id = "<%= data.title %>">
+               <div class="col-xs-12 col-lg-3">
+                  <img src ="<%= data.cover %>" class="mx-auto d-block">
+               </div>
+               <div class ="col-xs-0 col-lg-9">
+                  <div class = "p-3">
+                     <h2>
+                     <%= data.title %> <small class="text-muted">By <%= data.author %></small></h2>
+                     <p><%= data.description %></p>
+                     <p class="text-info"><%= data.genre %></p>
+                     <form method ="post" action = "/wishlist/remove">
+                        <button type="button" class="btn btn-success" onclick = "modalpopup('<%= data.title %>'); return false;">Add oneliner</button>
+                        <button type="submit" class="btn btn-warning" name = "title" value ="<%= data.title %>">Remove Book</button>
+                  </form>
+                  </div>
+               </div>
+            </div>
+         <% }) %>
+      </div>
+      <!-- Start of the modal div -->
+      <div class="modal justify-content-center align-items-center" tabindex="-1" role="dialog" id="one-liner-entry">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-light">
+               <div class="modal-header bg-dark">
+                  <h5 class="modal-title text-white">Would you like to add a oneliner?</h5>
+               </div>
+               <div class = "modal-sub-header">
+                  <h6 id="modal-book-title" class = "text-muted p-3"></h6>
+               </div>
+               <form method = "POST" action = "/wishlist/oneliner">
+                  <div class="modal-body">
+                     <input type="text" class="form-control" name = "oneliner" placeholder="Enter one liner here...">
+                     <!-- Add a hiddlen input element to save the title of the book which the popup concerns. -->
+                     <input type="hidden" name="modalTitle" id="modalTitle" /> 
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-outline-danger" id="close-modal">Close</button>
+                     <button type="submit" class="btn btn-outline-primary">Submit</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <%-include('partials/footer') %>
+   </body>
+</html>

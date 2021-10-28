@@ -1,0 +1,33 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="nav-link" href="/"><img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt=""></a>
+    <a class="navbar-brand" href="/">Books with Benefits</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link <% if(title == 'Match'){%> active <% }%>" href="/match">Get Recommendations</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <% if(title == 'Wishlist'){%> active <% }%>" href="/wishlist">My Wishlist</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <% if(title == 'Add Books'){%> active <% }%>" href="/addbooks">Recommend a Book</a>
+        </li>
+      </ul>
+      <span class="navbar-text">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link <% if(title == 'Profile'){%> active <% }%>" href="/profile">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <% if(title == 'Registration'){%> active <% }%>" href="/register">Login</a>
+          </li>
+        </ul>
+      </span>
+    </div>
+  </div>
+</nav>
